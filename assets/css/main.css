@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+
+@custom-variant dark (&:where(.dark, .dark *));
+ 
+:root {
+  --background: #ffffff;
+  --foreground: #11181c;
+}
+ 
+.dark {
+  --background: #211C12;
+  --foreground: #FAF8F6;
+}
+ 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+ 
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
