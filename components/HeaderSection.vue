@@ -3,23 +3,24 @@
     :class="[
       'sticky top-0 z-50 transition-all duration-300',
       isScrolled 
-        ? 'bg-white/90 dark:bg-[#211C12]/90 backdrop-blur-lg shadow-lg border-b border-amber-200/30 dark:border-amber-800/30' 
-        : 'bg-transparent'
+        ? 'bg-gray-900/95 backdrop-blur-lg shadow-lg border-b border-purple-500/30' 
+        : 'bg-gray-900/80 backdrop-blur-md'
     ]">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
       <!-- Logo Section -->
       <div class="flex items-center gap-3">
-        <div class="relative group">
-          <div class="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-          <div class="relative rounded-xl shadow-lg">
-            <NuxtImg src="/btg.jpg" alt="BTG Logo" class="w-10 h-10" />
+        <NuxtLink to="/" class="flex items-center gap-3">
+          <div class="relative group">
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+            <div class="relative rounded-xl shadow-lg overflow-hidden">
+              <NuxtImg src="/logo-white.png" alt="BTG Logo" class="w-10 h-10" />
+            </div>
           </div>
-        </div>
-        <!-- <div class="flex flex-col">
-          <span class="font-black text-2xl bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-            BTG
-          </span>
-        </div> -->
+          <div class="hidden sm:block">
+            <div class="text-xl font-black text-white">BTG</div>
+            <div class="text-xs text-purple-400 font-medium -mt-1">Gaming</div>
+          </div>
+        </NuxtLink>
       </div>
 
       <!-- Desktop Navigation -->
@@ -30,12 +31,12 @@
           :to="item.path" 
           :class="[
             'relative px-4 py-2 font-semibold text-sm uppercase tracking-wide transition-all duration-300 group',
-            'text-slate-700 dark:text-[#FAF8F6] hover:text-amber-600 dark:hover:text-amber-400'
+            'text-white hover:text-purple-300'
           ]"
         >
           {{ item.name }}
-          <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500 group-hover:w-full transition-all duration-300"></div>
-          <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+          <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
         </NuxtLink>
       </nav>
 
@@ -44,48 +45,36 @@
         <!-- Social Links -->
         <div class="hidden md:flex items-center gap-2">
           <a 
-            href="https://twitter.com/" 
+            href="#" 
             target="_blank" 
             rel="noopener" 
-            aria-label="Twitter"
-            class="group relative p-2.5 rounded-full bg-white/60 dark:bg-[#211C12]/60 backdrop-blur-lg border border-white/30 dark:border-amber-800/30 hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 hover:-translate-y-0.5 shadow-lg"
+            aria-label="Discord"
+            class="group relative p-2.5 rounded-full bg-gray-800/60 backdrop-blur-lg border border-purple-500/30 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 hover:-translate-y-0.5 shadow-lg"
           >
-            <div class="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 relative z-10">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M22 4.01c-.77.35-1.6.59-2.47.7a4.15 4.15 0 0 0 1.82-2.3 8.27 8.27 0 0 1-2.62 1A4.13 4.13 0 0 0 12 8.13c0 .32.04.64.1.94C8.28 8.9 5.1 7.13 2.98 4.7c-.35.6-.55 1.3-.55 2.05 0 1.42.72 2.67 1.82 3.4a4.1 4.1 0 0 1-1.87-.52v.05c0 1.98 1.41 3.63 3.28 4a4.2 4.2 0 0 1-1.86.07c.52 1.62 2.04 2.8 3.84 2.83A8.3 8.3 0 0 1 2 19.54a11.7 11.7 0 0 0 6.29 1.84c7.55 0 11.68-6.26 11.68-11.68 0-.18-.01-.36-.02-.54A8.18 8.18 0 0 0 22 4.01z" />
-            </svg>
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+            <UIcon name="i-simple-icons-discord" class="w-4 h-4 relative z-10 text-purple-400 group-hover:text-white" />
           </a>
           
           <a 
-            href="https://instagram.com/" 
+            href="#" 
             target="_blank" 
             rel="noopener" 
-            aria-label="Instagram"
-            class="group relative p-2.5 rounded-full bg-white/60 dark:bg-[#211C12]/60 backdrop-blur-lg border border-white/30 dark:border-amber-800/30 hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 hover:-translate-y-0.5 shadow-lg"
+            aria-label="Twitter"
+            class="group relative p-2.5 rounded-full bg-gray-800/60 backdrop-blur-lg border border-purple-500/30 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 hover:-translate-y-0.5 shadow-lg"
           >
-            <div class="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 relative z-10">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="m16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+            <UIcon name="i-simple-icons-twitter" class="w-4 h-4 relative z-10 text-purple-400 group-hover:text-white" />
           </a>
-        </div>
-
-        <!-- Color Mode Toggle -->
-        <div class="relative">
-          <ColorModeToggle />
         </div>
 
         <!-- Mobile Menu Button -->
         <button
           @click="mobileMenuOpen = !mobileMenuOpen"
-          class="lg:hidden group relative p-2.5 rounded-full bg-white/60 dark:bg-[#211C12]/60 backdrop-blur-lg border border-white/30 dark:border-amber-800/30 hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 shadow-lg"
+          class="lg:hidden group relative p-2.5 rounded-full bg-gray-800/60 backdrop-blur-lg border border-purple-500/30 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 shadow-lg"
           aria-label="Toggle mobile menu"
         >
-          <div class="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-          <svg class="w-5 h-5 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+          <svg class="w-5 h-5 relative z-10 text-purple-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path 
               v-if="!mobileMenuOpen"
               stroke-linecap="round" 
@@ -116,7 +105,7 @@
     >
       <div 
         v-if="mobileMenuOpen" 
-        class="lg:hidden absolute top-full left-0 right-0 bg-white/95 dark:bg-[#211C12]/95 backdrop-blur-xl border-b border-amber-200/30 dark:border-amber-800/30 shadow-2xl"
+        class="lg:hidden absolute top-full left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-b border-purple-500/30 shadow-2xl"
       >
         <nav class="max-w-7xl mx-auto px-6 py-6">
           <div class="flex flex-col gap-4">
@@ -125,7 +114,7 @@
               :key="item.name"
               :to="item.path"
               @click="mobileMenuOpen = false"
-              class="group relative px-4 py-3 font-semibold text-lg text-slate-700 dark:text-[#FAF8F6] hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/20 dark:hover:to-orange-900/20"
+              class="group relative px-4 py-3 font-semibold text-lg text-gray-300 hover:text-purple-400 transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-blue-500/10"
             >
               <div class="flex items-center justify-between">
                 {{ item.name }}
@@ -137,32 +126,25 @@
           </div>
           
           <!-- Mobile Social Links -->
-          <div class="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-amber-200/30 dark:border-amber-800/30">
+          <div class="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-purple-500/30">
             <a 
-              href="https://twitter.com/" 
+              href="#" 
               target="_blank" 
               rel="noopener" 
-              aria-label="Twitter"
-              class="p-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
+              aria-label="Discord"
+              class="p-3 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M22 4.01c-.77.35-1.6.59-2.47.7a4.15 4.15 0 0 0 1.82-2.3 8.27 8.27 0 0 1-2.62 1A4.13 4.13 0 0 0 12 8.13c0 .32.04.64.1.94C8.28 8.9 5.1 7.13 2.98 4.7c-.35.6-.55 1.3-.55 2.05 0 1.42.72 2.67 1.82 3.4a4.1 4.1 0 0 1-1.87-.52v.05c0 1.98 1.41 3.63 3.28 4a4.2 4.2 0 0 1-1.86.07c.52 1.62 2.04 2.8 3.84 2.83A8.3 8.3 0 0 1 2 19.54a11.7 11.7 0 0 0 6.29 1.84c7.55 0 11.68-6.26 11.68-11.68 0-.18-.01-.36-.02-.54A8.18 8.18 0 0 0 22 4.01z" />
-              </svg>
+              <UIcon name="i-simple-icons-discord" class="w-5 h-5" />
             </a>
             
             <a 
-              href="https://instagram.com/" 
+              href="#" 
               target="_blank" 
               rel="noopener" 
-              aria-label="Instagram"
-              class="p-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
+              aria-label="Twitter"
+              class="p-3 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="m16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-              </svg>
+              <UIcon name="i-simple-icons-twitter" class="w-5 h-5" />
             </a>
           </div>
         </nav>
@@ -180,11 +162,9 @@ const mobileMenuOpen = ref(false);
 
 const navItems = [
   { name: 'Home', path: '/' },
-  // { name: 'About', path: '/about' },
-  { name: 'Teams', path: '/teams' },
-  { name: 'Schedule', path: '/schedule' },
-  { name: 'News', path: '/news' },
-  // { name: 'Contact', path: '/contact' }
+  { name: 'About', path: '/about' },
+  { name: 'Stream Team', path: '/teams' },
+  { name: 'Shop', path: '/shop' },
 ];
 
 const handleScroll = () => {

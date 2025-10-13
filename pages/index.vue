@@ -1,74 +1,94 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-    <!-- Enhanced Hero Section -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
-      <!-- Animated Background -->
-      <div class="absolute inset-0 bg-gradient-to-br from-emerald-600 via-blue-600 to-purple-700">
-        <div
-          class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')]">
+  <div class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <!-- Animated Gaming Background -->
+      <div class="absolute inset-0 bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-gray-900/90">
+        <!-- Gaming Grid Pattern -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9nPjwvc3ZnPg==')]"></div>
+        
+        <!-- Floating Gaming Elements -->
+        <div class="absolute top-20 left-20 w-16 h-16 text-purple-400 opacity-20 animate-float">
+          <UIcon name="i-heroicons-device-phone-mobile" class="w-full h-full" />
         </div>
-      </div>
-
-      <!-- Floating Elements -->
-      <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-xl animate-float"></div>
-        <div class="absolute top-3/4 right-1/4 w-24 h-24 bg-amber-500/20 rounded-full blur-lg animate-float-delayed">
+        <div class="absolute top-40 right-32 w-20 h-20 text-blue-400 opacity-20 animate-float-delayed">
+          <UIcon name="i-heroicons-computer-desktop" class="w-full h-full" />
         </div>
-        <div class="absolute bottom-1/4 left-1/3 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl animate-float-slow">
+        <div class="absolute bottom-40 left-1/4 w-12 h-12 text-green-400 opacity-20 animate-float-slow">
+          <UIcon name="i-heroicons-puzzle-piece" class="w-full h-full" />
         </div>
       </div>
 
       <!-- Hero Content -->
-      <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        <!-- Animated Title -->
-        <div class="mb-8">
+      <div class="relative z-10 text-center px-4 max-w-6xl mx-auto">
+        <!-- BTG Logo/Brand -->
+        <div class="mb-8 animate-slide-in-up">
+          <div class="inline-block mb-6">
+            <div class="w-24 h-24 rounded-2xl overflow-hidden shadow-2xl bg-gray-800/50 p-4 backdrop-blur-md border border-white/10">
+              <NuxtImg src="/logo-white.png" alt="BTG Logo" class="w-full h-full object-contain" />
+            </div>
+          </div>
           <h1 class="text-6xl md:text-8xl font-black text-white mb-4 tracking-tight">
-            <span class="inline-block animate-slide-in-up">BRAVO</span>
-            <span
-              class="inline-block animate-slide-in-up animation-delay-200 bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">TRASHE</span>
+            <span class="inline-block">BRAVO</span>
+            <span class="inline-block bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">TRASHE</span>
           </h1>
-          <div class="text-2xl md:text-4xl font-bold text-white/90 animate-slide-in-up animation-delay-400">
-            GAMING TOURNAMENT
+          <div class="text-3xl md:text-5xl font-bold text-gray-300 animate-slide-in-up animation-delay-200">
+            GAMING
           </div>
         </div>
 
-        <!-- Subtitle -->
-        <p
-          class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-in-up animation-delay-600">
-          Where legends are born and dreams become reality. Join the most prestigious football tournament in the region.
+        <!-- Brand Tagline -->
+        <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed animate-slide-in-up animation-delay-400">
+          Where casual meets competitive. Join the most fun, welcoming, and banter-rich esports experience for everyday gamers.
         </p>
 
-        <!-- CTA Buttons -->
-        <div
-          class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-in-up animation-delay-800">
-          <UButton size="xl" color="warning" variant="solid"
-            class="px-8 py-4 text-white text-lg font-bold transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-amber-500/25"
-            to="/register">
-            <UIcon name="i-heroicons-trophy" class="mr-2" />
-            Register Your Team
+        <!-- Quick Navigation CTAs -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-slide-in-up animation-delay-600">
+          <UButton size="xl" color="primary" variant="solid"
+            class="px-8 py-4 text-white text-lg font-bold transform hover:scale-105 transition-all duration-300 shadow-2xl bg-gradient-to-r from-purple-600 to-blue-600"
+            to="/teams">
+            <UIcon name="i-heroicons-users" class="mr-2" />
+            Meet Our Team
           </UButton>
           <UButton size="xl" color="neutral" variant="outline"
-            class="px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-gray-900 transition-all duration-300"
-            to="/tournaments">
-            <UIcon name="i-heroicons-play" class="mr-2" />
-            Watch Highlights
+            class="px-8 py-4 text-lg font-semibold border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white transition-all duration-300"
+            to="/about">
+            <UIcon name="i-heroicons-information-circle" class="mr-2" />
+            Learn More
+          </UButton>
+          <UButton size="xl" color="warning" variant="solid"
+            class="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:scale-105 transition-all duration-300"
+            to="/shop">
+            <UIcon name="i-heroicons-shopping-bag" class="mr-2" />
+            Shop Merch
           </UButton>
         </div>
 
-        <!-- Stats Row -->
-        <div class="mt-16 grid grid-cols-3 gap-8 animate-slide-in-up animation-delay-1000">
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-black text-amber-400">50+</div>
-            <div class="text-white/80 font-medium">Teams</div>
+        <!-- Community Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 animate-slide-in-up animation-delay-800">
+          <div class="text-center bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+            <div class="text-3xl md:text-4xl font-black text-purple-400 mb-2">3</div>
+            <div class="text-gray-300 font-medium">Featured Streamers</div>
           </div>
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-black text-amber-400">₦500K</div>
-            <div class="text-white/80 font-medium">Prize Pool</div>
+          <div class="text-center bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+            <div class="text-3xl md:text-4xl font-black text-blue-400 mb-2">LIVE</div>
+            <div class="text-gray-300 font-medium">Tournaments</div>
           </div>
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-black text-amber-400">10K+</div>
-            <div class="text-white/80 font-medium">Spectators</div>
+          <div class="text-center bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+            <div class="text-3xl md:text-4xl font-black text-green-400 mb-2">24/7</div>
+            <div class="text-gray-300 font-medium">Community</div>
           </div>
+        </div>
+
+        <!-- Discord CTA -->
+        <div class="mt-12 animate-slide-in-up animation-delay-1000">
+          <p class="text-lg text-gray-400 mb-4">Ready to join the BTG family?</p>
+          <UButton size="lg" color="indigo" variant="solid"
+            class="px-8 py-3 text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition-colors"
+            to="#" target="_blank">
+            <UIcon name="i-simple-icons-discord" class="mr-2" />
+            Join Our Discord
+          </UButton>
         </div>
       </div>
 
@@ -78,326 +98,199 @@
       </div>
     </section>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-16">
-      <!-- Enhanced About Section -->
-      <section class="mb-20">
-        <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
-            About <span class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">BTG</span>
+    <!-- What We Do Section -->
+    <section class="py-20 bg-gray-900">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-6xl font-black text-white mb-6">
+            What We <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Do</span>
           </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            More than just a tournament - we're building the future of competitive football
+          <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+            Building the most inclusive and exciting esports community for non-professional gamers
           </p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div class="space-y-6">
-            <div
-              class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700">
-              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Our Mission</h3>
-              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-                Bravo Trashe Gaming (BTG) is revolutionizing competitive football by creating a platform where talent
-                meets opportunity. We're dedicated to fostering the next generation of football stars through fair
-                competition, professional development, and community building.
-              </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="group bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-purple-500 transition-all duration-300 hover:transform hover:scale-105">
+            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <UIcon name="i-heroicons-trophy" class="w-8 h-8 text-white" />
             </div>
-
-            <div class="grid grid-cols-2 gap-4">
-              <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-6 text-center">
-                <UIcon name="i-heroicons-users" class="w-8 h-8 text-emerald-600 mx-auto mb-2" />
-                <div class="text-2xl font-bold text-emerald-600">5+</div>
-                <div class="text-sm text-gray-600 dark:text-gray-300">Years Experience</div>
-              </div>
-              <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 text-center">
-                <UIcon name="i-heroicons-trophy" class="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                <div class="text-2xl font-bold text-blue-600">200+</div>
-                <div class="text-sm text-gray-600 dark:text-gray-300">Champions Crowned</div>
-              </div>
-            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Community Tournaments</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Host tournaments like the BPCL that bring together gamers across all skill levels for epic competition.
+            </p>
           </div>
 
-          <div class="relative">
-            <div class="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-2xl transform rotate-3">
+          <div class="group bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:transform hover:scale-105">
+            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <UIcon name="i-heroicons-video-camera" class="w-8 h-8 text-white" />
             </div>
-            <img src="/stadium.jpg" alt="BTG Stadium"
-              class="relative rounded-2xl shadow-2xl w-full h-96 object-cover" />
+            <h3 class="text-xl font-bold text-white mb-4">Stream Team</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Showcase talented streamers who bring personality and authentic gaming content to our community.
+            </p>
+          </div>
+
+          <div class="group bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-green-500 transition-all duration-300 hover:transform hover:scale-105">
+            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <UIcon name="i-heroicons-users" class="w-8 h-8 text-white" />
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Community Building</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Create events and content that unite gamers across platforms, fostering connections and friendships.
+            </p>
+          </div>
+
+          <div class="group bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-orange-500 transition-all duration-300 hover:transform hover:scale-105">
+            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-pink-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <UIcon name="i-heroicons-shopping-bag" class="w-8 h-8 text-white" />
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Merch & Culture</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Design and drop exclusive merchandise that represents our gaming culture and community pride.
+            </p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Enhanced Tournament Features -->
-      <section class="mb-20">
-        <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
-            Tournament <span
-              class="bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">Features</span>
+    <!-- Featured Streamers Preview -->
+    <section class="py-20 bg-gradient-to-br from-gray-800 to-gray-900">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-6xl font-black text-white mb-6">
+            Meet Our <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Streamers</span>
           </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-300">
-            Experience football like never before
+          <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+            The personalities that bring our community to life with epic gameplay and endless entertainment
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
-            class="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div
-              class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <UIcon name="i-heroicons-lightning-bolt" class="w-8 h-8 text-white" />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center group hover:border-purple-500 transition-all duration-300">
+            <div class="w-24 h-24 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full mx-auto mb-6 flex items-center justify-center">
+              <span class="text-2xl font-black text-white">AK</span>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Live Streaming</h3>
-            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-              Watch every match in crystal-clear HD with professional commentary and multiple camera angles.
-            </p>
-          </div>
-
-          <div
-            class="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div
-              class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <UIcon name="i-heroicons-chart-bar" class="w-8 h-8 text-white" />
-            </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Real-time Stats</h3>
-            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-              Advanced analytics and live statistics to track player performance and team dynamics.
-            </p>
-          </div>
-
-          <div
-            class="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div
-              class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <UIcon name="i-heroicons-currency-dollar" class="w-8 h-8 text-white" />
-            </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Prize Pool</h3>
-            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-              Compete for substantial cash prizes and exclusive sponsorship opportunities.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Tournament Highlights Grid -->
-      <section class="mb-20">
-        <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
-            Tournament <span
-              class="bg-gradient-to-r from-red-500 to-pink-600 bg-clip-text text-transparent">Highlights</span>
-          </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-300">
-            Relive the most incredible moments from our tournaments
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
-            class="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
-            <img src="/highlight1.png" alt="Exciting Matches"
-              class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-              <h3 class="text-xl font-bold mb-2">Epic Showdowns</h3>
-              <p class="text-white/90 text-sm">Witness heart-stopping matches that define legends</p>
+            <h3 class="text-2xl font-bold text-white mb-2">Acekydtv</h3>
+            <p class="text-purple-400 font-medium mb-4">The Captain & Creative</p>
+            <p class="text-gray-400 mb-6">Tech, vibes, and late-night FIFA sessions. The mastermind behind BTG's creative direction.</p>
+            <div class="flex justify-center space-x-3">
+              <UButton size="sm" color="purple" variant="soft" to="#" target="_blank">
+                <UIcon name="i-simple-icons-twitch" class="mr-1" />
+                Twitch
+              </UButton>
+              <UButton size="sm" color="neutral" variant="ghost" to="#" target="_blank">
+                <UIcon name="i-simple-icons-twitter" class="mr-1" />
+                Twitter
+              </UButton>
             </div>
           </div>
 
-          <div
-            class="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
-            <img src="/highlight2.png" alt="Top Teams"
-              class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-              <h3 class="text-xl font-bold mb-2">Elite Competition</h3>
-              <p class="text-white/90 text-sm">The region's finest teams battle for supremacy</p>
+          <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center group hover:border-blue-500 transition-all duration-300">
+            <div class="w-24 h-24 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full mx-auto mb-6 flex items-center justify-center">
+              <span class="text-2xl font-black text-white">HO</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">Hey_olla</h3>
+            <p class="text-blue-400 font-medium mb-4">The Stylish Sharpshooter</p>
+            <p class="text-gray-400 mb-6">Fashion meets precision gaming. Expect fun, style, and absolutely clean snipes every stream.</p>
+            <div class="flex justify-center space-x-3">
+              <UButton size="sm" color="blue" variant="soft" to="#" target="_blank">
+                <UIcon name="i-simple-icons-twitch" class="mr-1" />
+                Twitch
+              </UButton>
+              <UButton size="sm" color="neutral" variant="ghost" to="#" target="_blank">
+                <UIcon name="i-simple-icons-instagram" class="mr-1" />
+                Instagram
+              </UButton>
             </div>
           </div>
 
-          <div
-            class="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
-            <img src="/highlight3.png" alt="Competitive Play"
-              class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-              <h3 class="text-xl font-bold mb-2">Championship Glory</h3>
-              <p class="text-white/90 text-sm">Experience the thrill of competitive excellence</p>
+          <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center group hover:border-green-500 transition-all duration-300">
+            <div class="w-24 h-24 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full mx-auto mb-6 flex items-center justify-center">
+              <span class="text-2xl font-black text-white">AW</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">Ab_wavy</h3>
+            <p class="text-green-400 font-medium mb-4">The Vibe Master</p>
+            <p class="text-gray-400 mb-6">Smooth gameplay meets chill streams. Known for creating the perfect gaming atmosphere.</p>
+            <div class="flex justify-center space-x-3">
+              <UButton size="sm" color="green" variant="soft" to="#" target="_blank">
+                <UIcon name="i-simple-icons-twitch" class="mr-1" />
+                Twitch
+              </UButton>
+              <UButton size="sm" color="neutral" variant="ghost" to="#" target="_blank">
+                <UIcon name="i-simple-icons-twitter" class="mr-1" />
+                Twitter
+              </UButton>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Testimonials Section -->
-      <section class="mb-20">
-        <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
-            What Players <span
-              class="bg-gradient-to-r from-purple-500 to-pink-600 bg-clip-text text-transparent">Say</span>
-          </h2>
+        <div class="text-center">
+          <UButton size="lg" color="primary" variant="solid" to="/teams"
+            class="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold hover:scale-105 transition-all duration-300">
+            <UIcon name="i-heroicons-users" class="mr-2" />
+            View Full Stream Team
+          </UButton>
         </div>
+      </div>
+    </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700">
-            <div class="flex text-amber-400 mb-4">
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-            </div>
-            <p class="text-gray-600 dark:text-gray-300 mb-6 italic">
-              "BTG transformed my career. The level of organization and competition is unmatched in the region."
-            </p>
-            <div class="flex items-center">
-              <div
-                class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4">
-                <span class="text-white font-bold">AJ</span>
-              </div>
-              <div>
-                <div class="font-semibold text-gray-900 dark:text-white">Ahmed Johnson</div>
-                <div class="text-sm text-gray-500">Team Captain, Lagos Lions</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700">
-            <div class="flex text-amber-400 mb-4">
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-            </div>
-            <p class="text-gray-600 dark:text-gray-300 mb-6 italic">
-              "The professionalism and quality of BTG events are world-class. Every match feels like a final."
-            </p>
-            <div class="flex items-center">
-              <div
-                class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center mr-4">
-                <span class="text-white font-bold">MO</span>
-              </div>
-              <div>
-                <div class="font-semibold text-gray-900 dark:text-white">Mary Okafor</div>
-                <div class="text-sm text-gray-500">Striker, Abuja Eagles</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700">
-            <div class="flex text-amber-400 mb-4">
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-              <UIcon name="i-heroicons-star-solid" class="w-5 h-5" />
-            </div>
-            <p class="text-gray-600 dark:text-gray-300 mb-6 italic">
-              "BTG gave us the platform to showcase our talent. The exposure we got was incredible!"
-            </p>
-            <div class="flex items-center">
-              <div
-                class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center mr-4">
-                <span class="text-white font-bold">KA</span>
-              </div>
-              <div>
-                <div class="font-semibold text-gray-900 dark:text-white">Kemi Adebayo</div>
-                <div class="text-sm text-gray-500">Midfielder, Ibadan Warriors</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CTA Section -->
-      <section class="mb-20">
-        <div
-          class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-600 via-blue-600 to-purple-700 p-12 md:p-16 text-center">
-          <div
-            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')]">
-          </div>
-
+    <!-- Community CTA -->
+    <section class="py-20 bg-gray-900">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-600 rounded-3xl p-12 md:p-16 relative overflow-hidden">
+          <!-- Background Pattern -->
+          <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9nPjwvc3ZnPg==')] opacity-20"></div>
+          
           <div class="relative z-10">
             <h2 class="text-4xl md:text-6xl font-black text-white mb-6">
-              Ready to Make History?
+              Join the BTG Family
             </h2>
-            <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Join the most prestigious football tournament in the region. Register your team today and compete for
-              glory!
+            <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Don't need to be pro to feel the thrill. Just bring your controller, your squad, and your vibe.
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <UButton size="xl" color="neutral" variant="solid"
-                class="px-8 py-4 text-lg font-bold text-gray-900 hover:scale-105 transition-all duration-300 shadow-2xl"
-                to="/register">
-                <UIcon name="i-heroicons-rocket-launch" class="mr-2" />
-                Register Your Team
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <UButton size="xl" color="white" variant="solid"
+                class="px-8 py-4 text-lg font-bold text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
+                to="#" target="_blank">
+                <UIcon name="i-simple-icons-discord" class="mr-2" />
+                Join Discord
               </UButton>
               <UButton size="xl" color="neutral" variant="outline"
-                class="px-8 py-4 text-lg font-semibold border-2 text-black border-white hover:bg-white  transition-all duration-300"
-                to="/schedule">
-                <UIcon name="i-heroicons-calendar" class="mr-2" />
-                View Schedule
+                class="px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-purple-800 transition-all duration-300"
+                to="/about">
+                <UIcon name="i-heroicons-information-circle" class="mr-2" />
+                Learn More
               </UButton>
+            </div>
+
+            <!-- Social Links Preview -->
+            <div class="mt-8 flex justify-center space-x-6">
+              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                <UIcon name="i-simple-icons-twitter" class="w-6 h-6" />
+              </a>
+              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                <UIcon name="i-simple-icons-instagram" class="w-6 h-6" />
+              </a>
+              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                <UIcon name="i-simple-icons-youtube" class="w-6 h-6" />
+              </a>
             </div>
           </div>
         </div>
-      </section>
-
-      <!-- Enhanced Contact Section -->
-      <section class="mb-20">
-        <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
-            Get In <span
-              class="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Touch</span>
-          </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Have questions? Want to sponsor? Or just want to stay updated? We'd love to hear from you.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <UButton size="lg" color="success" variant="solid"
-            class="p-6 h-auto flex-col items-center justify-center hover:scale-105 transition-all duration-300"
-            to="/contact">
-            <UIcon name="i-heroicons-envelope" class="w-8 h-8 mb-2" />
-            <span class="text-lg font-semibold">Contact Us</span>
-            <span class="text-sm opacity-90">Send us a message</span>
-          </UButton>
-
-          <UButton size="lg" color="info" variant="solid"
-            class="p-6 h-auto flex-col items-center justify-center hover:scale-105 transition-all duration-300"
-            to="https://twitter.com/" target="_blank">
-            <UIcon name="i-simple-icons-twitter" class="w-8 h-8 mb-2" />
-            <span class="text-lg font-semibold">Follow Us</span>
-            <span class="text-sm opacity-90">Stay updated</span>
-          </UButton>
-
-          <UButton size="lg" color="primary" variant="solid"
-            class="p-6 h-auto flex-col items-center justify-center hover:scale-105 transition-all duration-300"
-            to="/sponsor">
-            <UIcon name="i-heroicons-building-office" class="w-8 h-8 mb-2" />
-            <span class="text-lg font-semibold">Sponsor</span>
-            <span class="text-sm opacity-90">Partner with us</span>
-          </UButton>
-
-          <UButton size="lg" color="warning" variant="solid"
-            class="p-6 h-auto flex-col items-center justify-center hover:scale-105 transition-all duration-300"
-            to="/newsletter">
-            <UIcon name="i-heroicons-newspaper" class="w-8 h-8 mb-2" />
-            <span class="text-lg font-semibold">Newsletter</span>
-            <span class="text-sm opacity-90">Weekly updates</span>
-          </UButton>
-        </div>
-      </section>
-    </main>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
-// Enhanced meta tags
+// BTG meta tags
 useHead({
-  title: 'Bravo Trashe Gaming Tournament - Premier Football Competition',
+  title: 'Bravo Trashe Gaming - Community Esports Organization',
   meta: [
-    { name: 'description', content: 'Join BTG, the most prestigious football tournament in the region. Experience world-class competition, substantial prizes, and professional organization.' },
-    { name: 'keywords', content: 'football tournament, sports competition, BTG, gaming, prizes, Nigeria' }
+    { name: 'description', content: 'Join BTG, the most fun and welcoming esports community. Where casual meets competitive gaming with tournaments, streamers, and epic community events.' },
+    { name: 'keywords', content: 'esports, gaming community, BTG, tournaments, streamers, Discord, gaming culture, competitive gaming' }
   ]
 })
 

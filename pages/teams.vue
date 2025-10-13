@@ -1,375 +1,369 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-green-100">
-    <!-- Sports Pattern Background -->
-    <div class="fixed inset-0 z-0 opacity-5">
-      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIvPjxwb2x5Z29uIHBvaW50cz0iNTAsMjAgNjUsNDUgNTAsMzUgMzUsNDUiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjwvc3ZnPg==')] bg-repeat"></div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="relative z-10 max-w-7xl mx-auto px-4 py-8">
-      <!-- Hero Header -->
-      <div class="text-center mb-12">
-        <div class="inline-block relative mb-6">
-          <h1 class="text-5xl md:text-7xl font-black text-green-800 mb-4">
-            BTG TOURNAMENT
-          </h1>
-          <div class="h-1 bg-gradient-to-r from-green-600 to-blue-600 rounded-full"></div>
-        </div>
-        <p class="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
-          Meet the competitive teams battling for championship glory
+  <div class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+    <!-- Header Section -->
+    <section class="relative py-20 bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-gray-900/90">
+      <!-- Gaming Grid Pattern -->
+      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9nPjwvc3ZnPg==')] opacity-20"></div>
+      
+      <div class="relative z-10 max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-5xl md:text-7xl font-black text-white mb-6">
+          BTG <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">STREAM TEAM</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
+          Meet the personalities that bring our community to life with epic gameplay, authentic content, and endless entertainment
         </p>
         
-        <!-- Tournament Stats -->
+        <!-- Stream Stats -->
         <div class="flex justify-center gap-6 mb-10">
-          <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-green-500">
-            <div class="text-2xl font-bold text-green-700">{{ teams.length }}</div>
-            <div class="text-gray-600 text-sm">Teams</div>
+          <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
+            <div class="text-2xl font-bold text-purple-400">{{ streamers.length }}</div>
+            <div class="text-gray-300 text-sm">Featured Streamers</div>
           </div>
-          <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500">
-            <div class="text-2xl font-bold text-blue-700">₦500K</div>
-            <div class="text-gray-600 text-sm">Prize Pool</div>
+          <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
+            <div class="text-2xl font-bold text-blue-400">LIVE</div>
+            <div class="text-gray-300 text-sm">Streams Daily</div>
           </div>
-          <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-orange-500">
-            <div class="text-2xl font-bold text-orange-700">12</div>
-            <div class="text-gray-600 text-sm">Weeks</div>
+          <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
+            <div class="text-2xl font-bold text-green-400">5K+</div>
+            <div class="text-gray-300 text-sm">Community</div>
           </div>
-        </div>
-
-        <!-- Filter Controls -->
-        <div class="flex justify-center gap-3 mb-10">
-          <UButton
-            v-for="filter in filters"
-            :key="filter.id"
-            :variant="activeFilter === filter.id ? 'solid' : 'outline'"
-            :color="activeFilter === filter.id ? 'success' : 'neutral'"
-            @click="activeFilter = filter.id"
-            class="px-4 py-2 text-sm font-medium"
-          >
-            {{ filter.label }}
-          </UButton>
         </div>
       </div>
+    </section>
 
-      <!-- Teams Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        <div
-          v-for="(team, index) in filteredTeams"
-          :key="team.id"
-          class="team-card group cursor-pointer"
-          @click="selectTeam(team)"
-        >
-          <!-- Team Card -->
-          <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 h-full hover:shadow-xl transition-shadow duration-300">
-            <!-- Team Logo -->
-            <div class="text-center mb-4">
-              <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center border-2 border-green-200 group-hover:scale-105 transition-transform duration-300">
-                <img
-                  :src="team.logo"
-                  :alt="team.name"
-                  class="w-14 h-14 rounded-full object-cover"
-                />
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-16">
+      <!-- Featured Streamers -->
+      <section class="mb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-1 gap-12">
+          <!-- Streamer Cards -->
+          <div
+            v-for="(streamer, index) in streamers"
+            :key="streamer.id"
+            class="group bg-gray-800 rounded-3xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-all duration-500 hover:transform hover:scale-[1.02]"
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+              <!-- Twitch Embed Section -->
+              <div class="relative bg-gray-900 flex items-center justify-center min-h-[400px] lg:min-h-[500px]">
+                <!-- Twitch Embed will go here -->
+                <div class="w-full h-full">
+                  <!-- Live Stream Embed -->
+                  <div v-if="streamer.isLive" class="w-full h-full">
+                    <iframe
+                      :src="`https://player.twitch.tv/?channel=${streamer.twitchHandle}&parent=localhost&parent=btgaming.com&muted=false`"
+                      class="w-full h-full border-0"
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                  
+                  <!-- Offline State -->
+                  <div v-else class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-center p-8">
+                    <div class="w-32 h-32 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mb-6">
+                      <span class="text-4xl font-black text-white">{{ streamer.initials }}</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">{{ streamer.displayName }}</h3>
+                    <p class="text-gray-400 mb-4">Currently Offline</p>
+                    <p class="text-sm text-gray-500 mb-6">Last streamed: {{ streamer.lastStreamTitle }}</p>
+                    <UButton 
+                      :to="`https://twitch.tv/${streamer.twitchHandle}`" 
+                      target="_blank"
+                      size="sm" 
+                      color="purple" 
+                      variant="solid"
+                      class="mb-4">
+                      <UIcon name="i-simple-icons-twitch" class="mr-2" />
+                      Visit Channel
+                    </UButton>
+                    <div class="text-xs text-gray-500">
+                      <UIcon name="i-heroicons-clock" class="inline mr-1" />
+                      Check back soon for live streams!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Streamer Info Section -->
+              <div class="p-8 lg:p-12 flex flex-col justify-center">
+                <div class="mb-6">
+                  <div class="flex items-center mb-4">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center mr-4">
+                      <span class="text-xl font-black text-white">{{ streamer.initials }}</span>
+                    </div>
+                    <div>
+                      <h2 class="text-3xl font-black text-white mb-1">{{ streamer.displayName }}</h2>
+                      <p class="text-purple-400 font-semibold">{{ streamer.role }}</p>
+                    </div>
+                  </div>
+                  
+                  <!-- Live Status -->
+                  <div class="flex items-center mb-6">
+                    <div :class="[
+                      'w-3 h-3 rounded-full mr-2',
+                      streamer.isLive ? 'bg-red-500 animate-pulse' : 'bg-gray-500'
+                    ]"></div>
+                    <span :class="[
+                      'text-sm font-medium',
+                      streamer.isLive ? 'text-red-400' : 'text-gray-400'
+                    ]">
+                      {{ streamer.isLive ? 'LIVE NOW' : 'OFFLINE' }}
+                    </span>
+                    <span v-if="streamer.isLive" class="text-gray-400 ml-2 text-sm">
+                      • {{ streamer.currentGame }}
+                    </span>
+                  </div>
+                </div>
+
+                <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                  {{ streamer.description }}
+                </p>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                  <div class="text-center p-3 bg-gray-700/50 rounded-lg">
+                    <UIcon name="i-heroicons-users" class="w-5 h-5 text-purple-400 mx-auto mb-1" />
+                    <div class="text-lg font-bold text-white">{{ streamer.followers || '2.5K' }}</div>
+                    <div class="text-gray-400 text-xs">Followers</div>
+                  </div>
+                  <div class="text-center p-3 bg-gray-700/50 rounded-lg">
+                    <UIcon name="i-heroicons-clock" class="w-5 h-5 text-blue-400 mx-auto mb-1" />
+                    <div class="text-lg font-bold text-white">{{ streamer.hoursStreamed || '150' }}</div>
+                    <div class="text-gray-400 text-xs">Hours</div>
+                  </div>
+                  <div class="text-center p-3 bg-gray-700/50 rounded-lg">
+                    <UIcon name="i-heroicons-star" class="w-5 h-5 text-yellow-400 mx-auto mb-1" />
+                    <div class="text-lg font-bold text-white">{{ streamer.rating || '4.9' }}</div>
+                    <div class="text-gray-400 text-xs">Rating</div>
+                  </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="flex flex-wrap gap-3">
+                  <UButton 
+                    :to="`https://twitch.tv/${streamer.twitchHandle}`" 
+                    target="_blank"
+                    size="sm" 
+                    color="purple" 
+                    variant="solid">
+                    <UIcon name="i-simple-icons-twitch" class="mr-2" />
+                    Twitch
+                  </UButton>
+                  <UButton 
+                    v-if="streamer.twitter"
+                    :to="`https://twitter.com/${streamer.twitter}`" 
+                    target="_blank"
+                    size="sm" 
+                    color="neutral" 
+                    variant="outline">
+                    <UIcon name="i-simple-icons-twitter" class="mr-2" />
+                    Twitter
+                  </UButton>
+                  <UButton 
+                    v-if="streamer.instagram"
+                    :to="`https://instagram.com/${streamer.instagram}`" 
+                    target="_blank"
+                    size="sm" 
+                    color="neutral" 
+                    variant="outline">
+                    <UIcon name="i-simple-icons-instagram" class="mr-2" />
+                    Instagram
+                  </UButton>
+                  <UButton 
+                    v-if="streamer.youtube"
+                    :to="`https://youtube.com/${streamer.youtube}`" 
+                    target="_blank"
+                    size="sm" 
+                    color="red" 
+                    variant="outline">
+                    <UIcon name="i-simple-icons-youtube" class="mr-2" />
+                    YouTube
+                  </UButton>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <!-- Team Info -->
-            <div class="text-center">
-              <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-green-700 transition-colors">
-                {{ team.name }}
-              </h3>
-              <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ team.description }}</p>
-              
-              <!-- Team Stats -->
-              <div class="grid grid-cols-3 gap-3 mb-4">
-                <div class="bg-gray-50 rounded-lg p-2">
-                  <div class="text-lg font-bold text-green-600">{{ team.wins || 0 }}</div>
-                  <div class="text-xs text-gray-500">Wins</div>
-                </div>
-                <div class="bg-gray-50 rounded-lg p-2">
-                  <div class="text-lg font-bold text-blue-600">{{ team.goals || 0 }}</div>
-                  <div class="text-xs text-gray-500">Goals</div>
-                </div>
-                <div class="bg-gray-50 rounded-lg p-2">
-                  <div class="text-lg font-bold text-orange-600">{{ team.rank || index + 1 }}</div>
-                  <div class="text-xs text-gray-500">Rank</div>
-                </div>
-              </div>
+      <!-- Community Section -->
+      <section class="mb-20">
+        <div class="bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-600 rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
+          <!-- Background Pattern -->
+          <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9nPjwvc3ZnPg==')] opacity-20"></div>
+          
+          <div class="relative z-10">
+            <h2 class="text-4xl md:text-6xl font-black text-white mb-6">
+              Join the Stream Squad
+            </h2>
+            <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Follow our streamers, join the chat, and become part of the BTG gaming community.
+            </p>
 
-              <!-- Performance Indicator -->
-              <div class="mb-4">
-                <div class="flex justify-between text-xs text-gray-600 mb-1">
-                  <span>Form</span>
-                  <span>{{ team.performance || 85 }}%</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    class="h-2 rounded-full bg-gradient-to-r from-green-500 to-blue-500 transition-all duration-1000"
-                    :style="{ width: `${team.performance || 85}%` }"
-                  ></div>
-                </div>
-              </div>
-
-              <!-- View Team Button -->
-              <UButton
-                :to="team.url"
-                target="_blank"
-                color="success"
-                variant="soft"
-                class="w-full"
-                size="sm"
-              >
-                <UIcon name="i-heroicons-eye" class="mr-2" />
-                View Team
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+              <UButton size="xl" color="white" variant="solid"
+                class="px-8 py-4 text-lg font-bold text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
+                to="#" target="_blank">
+                <UIcon name="i-simple-icons-discord" class="mr-2" />
+                Join Discord
+              </UButton>
+              <UButton size="xl" color="neutral" variant="outline"
+                class="px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-purple-800 transition-all duration-300"
+                to="/">
+                <UIcon name="i-heroicons-arrow-left" class="mr-2" />
+                Back to Home
               </UButton>
             </div>
+
+            <!-- Quick Social Links -->
+            <div class="flex justify-center space-x-6">
+              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                <UIcon name="i-simple-icons-twitter" class="w-6 h-6" />
+              </a>
+              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                <UIcon name="i-simple-icons-instagram" class="w-6 h-6" />
+              </a>
+              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                <UIcon name="i-simple-icons-youtube" class="w-6 h-6" />
+              </a>
+              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                <UIcon name="i-simple-icons-twitch" class="w-6 h-6" />
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Featured Team Spotlight -->
-      <div v-if="selectedTeam" class="mb-12">
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-          <div class="bg-gradient-to-r from-green-500 to-blue-500 h-2"></div>
-          
-          <div class="p-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <!-- Team Image -->
-              <div class="relative">
-                <div class="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 border-2 border-gray-200">
-                  <img
-                    :src="selectedTeam.logo"
-                    :alt="selectedTeam.name"
-                    class="w-full h-full object-cover"
-                  />
-                </div>
-                <!-- Team Badge -->
-                <div class="absolute -top-3 -right-3 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                  #{{ selectedTeam.rank }}
-                </div>
+      <!-- Stream Schedule Preview -->
+      <section>
+        <div class="text-center mb-12">
+          <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+            Stream <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Schedule</span>
+          </h2>
+          <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+            Catch your favorite streamers at their regular streaming times
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+            <h3 class="text-xl font-bold text-purple-400 mb-4">Acekydtv</h3>
+            <div class="space-y-2 text-gray-300">
+              <div class="flex justify-between">
+                <span>Monday - Friday</span>
+                <span>8 PM - 12 AM</span>
               </div>
+              <div class="flex justify-between">
+                <span>Saturday</span>
+                <span>6 PM - 2 AM</span>
+              </div>
+              <div class="text-sm text-gray-500">
+                Mainly FIFA, Tech reviews, Community games
+              </div>
+            </div>
+          </div>
 
-              <!-- Team Details -->
-              <div>
-                <div class="flex items-center mb-4">
-                  <UIcon name="i-heroicons-trophy" class="w-6 h-6 text-yellow-500 mr-2" />
-                  <span class="text-sm font-medium text-gray-600 uppercase tracking-wide">Team Spotlight</span>
-                </div>
-                
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">{{ selectedTeam.name }}</h2>
-                <p class="text-gray-700 text-lg mb-6 leading-relaxed">{{ selectedTeam.description }}</p>
-                
-                <!-- Detailed Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                  <div class="text-center p-3 bg-gray-50 rounded-lg">
-                    <UIcon name="i-heroicons-trophy" class="w-5 h-5 text-yellow-500 mx-auto mb-1" />
-                    <div class="text-xl font-bold text-gray-800">{{ selectedTeam.wins || 0 }}</div>
-                    <div class="text-gray-600 text-sm">Wins</div>
-                  </div>
-                  <div class="text-center p-3 bg-gray-50 rounded-lg">
-                    <UIcon name="i-heroicons-fire" class="w-5 h-5 text-red-500 mx-auto mb-1" />
-                    <div class="text-xl font-bold text-gray-800">{{ selectedTeam.goals || 0 }}</div>
-                    <div class="text-gray-600 text-sm">Goals</div>
-                  </div>
-                  <div class="text-center p-3 bg-gray-50 rounded-lg">
-                    <UIcon name="i-heroicons-users" class="w-5 h-5 text-blue-500 mx-auto mb-1" />
-                    <div class="text-xl font-bold text-gray-800">{{ selectedTeam.players || 11 }}</div>
-                    <div class="text-gray-600 text-sm">Players</div>
-                  </div>
-                  <div class="text-center p-3 bg-gray-50 rounded-lg">
-                    <UIcon name="i-heroicons-star" class="w-5 h-5 text-green-500 mx-auto mb-1" />
-                    <div class="text-xl font-bold text-gray-800">{{ selectedTeam.rating || 4.8 }}</div>
-                    <div class="text-gray-600 text-sm">Rating</div>
-                  </div>
-                </div>
+          <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+            <h3 class="text-xl font-bold text-blue-400 mb-4">Hey_olla</h3>
+            <div class="space-y-2 text-gray-300">
+              <div class="flex justify-between">
+                <span>Tuesday, Thursday</span>
+                <span>7 PM - 11 PM</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Sunday</span>
+                <span>3 PM - 8 PM</span>
+              </div>
+              <div class="text-sm text-gray-500">
+                FPS games, Fashion content, Lifestyle
+              </div>
+            </div>
+          </div>
 
-                <UButton
-                  :to="selectedTeam.url"
-                  target="_blank"
-                  size="lg"
-                  color="success"
-                >
-                  <UIcon name="i-heroicons-arrow-top-right-on-square" class="mr-2" />
-                  Visit Team Page
-                </UButton>
+          <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+            <h3 class="text-xl font-bold text-green-400 mb-4">Ab_wavy</h3>
+            <div class="space-y-2 text-gray-300">
+              <div class="flex justify-between">
+                <span>Wednesday, Friday</span>
+                <span>9 PM - 1 AM</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Sunday</span>
+                <span>7 PM - 11 PM</span>
+              </div>
+              <div class="text-sm text-gray-500">
+                Chill gaming, Music, Community vibes
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Tournament Info -->
-      <div class="text-center">
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
-          <div class="flex items-center justify-center mb-4">
-            <UIcon name="i-heroicons-trophy" class="w-8 h-8 text-yellow-500 mr-3" />
-            <h2 class="text-3xl font-bold text-gray-800">Tournament Bracket</h2>
-          </div>
-          <p class="text-gray-700 text-lg mb-6">Follow the championship journey as teams compete for the ultimate prize!</p>
-          <div class="flex justify-center gap-4">
-            <UButton
-              to="/bracket"
-              size="lg"
-              color="success"
-              class="font-semibold"
-            >
-              <UIcon name="i-heroicons-trophy" class="mr-2" />
-              View Bracket
-            </UButton>
-            <UButton
-              to="/schedule"
-              size="lg"
-              color="info"
-              variant="outline"
-              class="font-semibold"
-            >
-              <UIcon name="i-heroicons-calendar" class="mr-2" />
-              Match Schedule
-            </UButton>
-          </div>
-        </div>
-      </div>
+      </section>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
-// Team data focused on sports performance
-const teams = ref([
+// BTG Streamer data
+const streamers = ref([
   {
     id: 1,
-    name: 'Thunder Hawks',
-    description: 'Dominant force with aggressive attacking style and rock-solid defense.',
-    logo: '/stadium.png',
-    url: 'https://www.google.com',
-    wins: 12,
-    goals: 34,
-    rank: 1,
-    performance: 95,
-    players: 11,
-    rating: 4.9,
-    category: 'elite'
+    displayName: 'Acekydtv',
+    initials: 'AK',
+    twitchHandle: 'acekydtv',
+    role: 'The Captain & Creative',
+    description: 'Tech, vibes, and late-night FIFA sessions. The mastermind behind BTG\'s creative direction. Ace brings technical expertise and community leadership to every stream, creating the perfect blend of competitive gaming and chill vibes.',
+    isLive: true, // Updated to show live
+    currentGame: 'FIFA 24',
+    lastStreamTitle: 'BTG Community Night | FIFA Pro Clubs',
+    followers: '3.2K',
+    hoursStreamed: '180',
+    rating: '4.9',
+    twitter: 'acekydtv',
+    instagram: null,
+    youtube: 'acekydtv'
   },
   {
     id: 2,
-    name: 'Storm Riders',
-    description: 'Fast-paced gameplay with exceptional teamwork and strategic positioning.',
-    logo: '/stadium.png',
-    url: 'https://www.google.com',
-    wins: 10,
-    goals: 28,
-    rank: 2,
-    performance: 88,
-    players: 11,
-    rating: 4.7,
-    category: 'elite'
+    displayName: 'Hey_olla',
+    initials: 'HO',
+    twitchHandle: 'hey_olla',
+    role: 'The Stylish Sharpshooter',
+    description: 'Fashion meets precision gaming. Expect fun, style, and absolutely clean snipes every stream. Hey_olla brings a unique blend of lifestyle content and high-skill FPS gameplay that keeps the community engaged and entertained.',
+    isLive: true, // Updated to show live
+    currentGame: 'Call of Duty',
+    lastStreamTitle: 'Sunday Snipes & Style Talk',
+    followers: '2.8K',
+    hoursStreamed: '145',
+    rating: '4.8',
+    twitter: 'hey_olla',
+    instagram: 'hey_olla',
+    youtube: null
   },
   {
     id: 3,
-    name: 'Fire Lions',
-    description: 'Fierce competitors known for their explosive offensive plays and leadership.',
-    logo: '/stadium.png',
-    url: 'https://www.google.com',
-    wins: 9,
-    goals: 25,
-    rank: 3,
-    performance: 82,
-    players: 11,
-    rating: 4.6,
-    category: 'pro'
-  },
-  {
-    id: 4,
-    name: 'Steel Eagles',
-    description: 'Disciplined squad with strong fundamentals and clutch performance.',
-    logo: '/stadium.png',
-    url: 'https://www.google.com',
-    wins: 8,
-    goals: 22,
-    rank: 4,
-    performance: 79,
-    players: 11,
-    rating: 4.5,
-    category: 'pro'
-  },
-  {
-    id: 5,
-    name: 'Green Wolves',
-    description: 'Hungry pack of rising stars with impressive coordination and spirit.',
-    logo: '/stadium.png',
-    url: 'https://www.google.com',
-    wins: 7,
-    goals: 19,
-    rank: 5,
-    performance: 75,
-    players: 11,
-    rating: 4.3,
-    category: 'rising'
-  },
-  {
-    id: 6,
-    name: 'Blue Sharks',
-    description: 'Relentless attackers who strike with precision and never give up.',
-    logo: '/stadium.png',
-    url: 'https://www.google.com',
-    wins: 6,
-    goals: 16,
-    rank: 6,
-    performance: 71,
-    players: 11,
-    rating: 4.2,
-    category: 'rising'
+    displayName: 'Ab_wavy',
+    initials: 'AW',
+    twitchHandle: 'ab_wavy',
+    role: 'The Vibe Master',
+    description: 'Smooth gameplay meets chill streams. Known for creating the perfect gaming atmosphere where skill and relaxation come together. Ab_wavy specializes in creating an inclusive space where everyone feels welcome to game and vibe.',
+    isLive: false, // Updated to show offline for variety
+    currentGame: 'Apex Legends',
+    lastStreamTitle: 'Chill Wednesday Vibes | Community Games',
+    followers: '2.1K',
+    hoursStreamed: '120',
+    rating: '4.7',
+    twitter: 'ab_wavy',
+    instagram: null,
+    youtube: null
   }
 ])
 
-const selectedTeam = ref(teams.value[0])
-const activeFilter = ref('all')
-
-const filters = [
-  { id: 'all', label: 'All Teams' },
-  { id: 'elite', label: 'Elite Division' },
-  { id: 'pro', label: 'Pro Division' },
-  { id: 'rising', label: 'Rising Stars' }
-]
-
-const filteredTeams = computed(() => {
-  if (activeFilter.value === 'all') return teams.value
-  return teams.value.filter(team => team.category === activeFilter.value)
-})
-
-const selectTeam = (team: any) => {
-  selectedTeam.value = team
-}
-
 // Meta tags
 useHead({
-  title: 'Teams - BTG Tournament',
+  title: 'Stream Team - BTG Gaming',
   meta: [
-    { name: 'description', content: 'Meet the competitive teams in the BTG Tournament. Championship squads, player stats, and tournament standings.' }
-  ],
-  style: [{
-    innerHTML: `
-      .team-card {
-        transition: all 0.3s ease;
-      }
-      
-      .team-card:hover {
-        transform: translateY(-4px);
-      }
-      
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      
-      /* Subtle background pattern */
-      .bg-pattern {
-        background-image: radial-gradient(circle at 1px 1px, rgba(34, 197, 94, 0.1) 1px, transparent 0);
-        background-size: 20px 20px;
-      }
-    `
-  }]
+    { name: 'description', content: 'Meet the BTG Stream Team. Watch live Twitch streams, follow your favorite streamers, and join our gaming community.' },
+    { name: 'keywords', content: 'BTG streamers, Twitch, gaming community, esports, live streaming, Acekydtv, Hey_olla, Ab_wavy' }
+  ]
 })
 </script>
