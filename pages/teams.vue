@@ -50,7 +50,7 @@
                   <!-- Live Stream Embed -->
                   <div v-if="streamer.isLive" class="w-full h-full">
                     <iframe
-                      :src="`https://player.twitch.tv/?channel=${streamer.twitchHandle}&parent=localhost&parent=btgaming.com&muted=false`"
+                      :src="`https://player.twitch.tv/?channel=${streamer.handle}&parent=localhost&parent=btgaming.com&muted=false`"
                       class="w-full h-full border-0"
                       allowfullscreen>
                     </iframe>
@@ -58,17 +58,20 @@
                   
                   <!-- Offline State -->
                   <div v-else class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-center p-8">
-                    <div class="w-32 h-32 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mb-6">
+                    <div 
+                      class="w-32 h-32 rounded-full flex items-center justify-center mb-6"
+                      :style="{ background: `linear-gradient(to right, ${getHex(streamer.color.from)}, ${getHex(streamer.color.to)})` }"
+                    >
                       <span class="text-4xl font-black text-white">{{ streamer.initials }}</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-2">{{ streamer.displayName }}</h3>
+                    <h3 class="text-2xl font-bold text-white mb-2">{{ streamer.name }}</h3>
                     <p class="text-gray-400 mb-4">Currently Offline</p>
                     <p class="text-sm text-gray-500 mb-6">Last streamed: {{ streamer.lastStreamTitle }}</p>
                     <UButton 
-                      :to="`https://twitch.tv/${streamer.twitchHandle}`" 
+                      :to="streamer.links?.twitch || '#'" 
                       target="_blank"
                       size="sm" 
-                      color="purple" 
+                      color="primary" 
                       variant="solid"
                       class="mb-4">
                       <UIcon name="i-simple-icons-twitch" class="mr-2" />
@@ -86,11 +89,14 @@
               <div class="p-8 lg:p-12 flex flex-col justify-center">
                 <div class="mb-6">
                   <div class="flex items-center mb-4">
-                    <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center mr-4">
+                    <div 
+                      class="w-16 h-16 rounded-full flex items-center justify-center mr-4"
+                      :style="{ background: `linear-gradient(to right, ${getHex(streamer.color.from)}, ${getHex(streamer.color.to)})` }"
+                    >
                       <span class="text-xl font-black text-white">{{ streamer.initials }}</span>
                     </div>
                     <div>
-                      <h2 class="text-3xl font-black text-white mb-1">{{ streamer.displayName }}</h2>
+                      <h2 class="text-3xl font-black text-white mb-1">{{ streamer.name }}</h2>
                       <p class="text-purple-400 font-semibold">{{ streamer.role }}</p>
                     </div>
                   </div>
@@ -114,7 +120,7 @@
                 </div>
 
                 <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                  {{ streamer.description }}
+                  {{ streamer.description || streamer.bio }}
                 </p>
                 
                 <!-- Stats -->
@@ -139,17 +145,18 @@
                 <!-- Social Links -->
                 <div class="flex flex-wrap gap-3">
                   <UButton 
-                    :to="`https://twitch.tv/${streamer.twitchHandle}`" 
+                    v-if="streamer.links?.twitch"
+                    :to="streamer.links.twitch" 
                     target="_blank"
                     size="sm" 
-                    color="purple" 
+                    color="primary" 
                     variant="solid">
                     <UIcon name="i-simple-icons-twitch" class="mr-2" />
                     Twitch
                   </UButton>
                   <UButton 
-                    v-if="streamer.twitter"
-                    :to="`https://twitter.com/${streamer.twitter}`" 
+                    v-if="streamer.links?.twitter"
+                    :to="streamer.links.twitter" 
                     target="_blank"
                     size="sm" 
                     color="neutral" 
@@ -158,8 +165,8 @@
                     Twitter
                   </UButton>
                   <UButton 
-                    v-if="streamer.instagram"
-                    :to="`https://instagram.com/${streamer.instagram}`" 
+                    v-if="streamer.links?.instagram"
+                    :to="streamer.links.instagram" 
                     target="_blank"
                     size="sm" 
                     color="neutral" 
@@ -168,11 +175,11 @@
                     Instagram
                   </UButton>
                   <UButton 
-                    v-if="streamer.youtube"
-                    :to="`https://youtube.com/${streamer.youtube}`" 
+                    v-if="streamer.links?.youtube"
+                    :to="streamer.links.youtube" 
                     target="_blank"
                     size="sm" 
-                    color="red" 
+                    color="error" 
                     variant="outline">
                     <UIcon name="i-simple-icons-youtube" class="mr-2" />
                     YouTube
@@ -199,13 +206,13 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-              <UButton size="xl" color="white" variant="solid"
+              <UButton size="xl" color="primary" variant="solid"
                 class="px-8 py-4 text-lg font-bold text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
                 to="#" target="_blank">
                 <UIcon name="i-simple-icons-discord" class="mr-2" />
                 Join Discord
               </UButton>
-              <UButton size="xl" color="neutral" variant="outline"
+              <UButton size="xl" variant="outline"
                 class="px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-purple-800 transition-all duration-300"
                 to="/">
                 <UIcon name="i-heroicons-arrow-left" class="mr-2" />
@@ -244,53 +251,31 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
-            <h3 class="text-xl font-bold text-purple-400 mb-4">Acekydtv</h3>
+          <div 
+            v-for="streamer in streamers" 
+            :key="streamer.id"
+            class="bg-gray-800 rounded-2xl p-6 border border-gray-700"
+          >
+            <h3 
+              class="text-xl font-bold mb-4"
+              :style="{ color: getHex(streamer.color.from) }"
+            >
+              {{ streamer.name }}
+            </h3>
             <div class="space-y-2 text-gray-300">
-              <div class="flex justify-between">
-                <span>Monday - Friday</span>
-                <span>8 PM - 12 AM</span>
+              <div 
+                v-for="entry in getScheduleEntries(streamer)"
+                :key="entry[0]"
+                class="flex justify-between"
+              >
+                <span class="capitalize">{{ entry[0] }}</span>
+                <span>{{ entry[1] }}</span>
               </div>
-              <div class="flex justify-between">
-                <span>Saturday</span>
-                <span>6 PM - 2 AM</span>
+              <div v-if="getScheduleEntries(streamer).length === 0" class="text-gray-500 text-sm">
+                Schedule TBD
               </div>
-              <div class="text-sm text-gray-500">
-                Mainly FIFA, Tech reviews, Community games
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
-            <h3 class="text-xl font-bold text-blue-400 mb-4">Hey_olla</h3>
-            <div class="space-y-2 text-gray-300">
-              <div class="flex justify-between">
-                <span>Tuesday, Thursday</span>
-                <span>7 PM - 11 PM</span>
-              </div>
-              <div class="flex justify-between">
-                <span>Sunday</span>
-                <span>3 PM - 8 PM</span>
-              </div>
-              <div class="text-sm text-gray-500">
-                FPS games, Fashion content, Lifestyle
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
-            <h3 class="text-xl font-bold text-green-400 mb-4">Ab_wavy</h3>
-            <div class="space-y-2 text-gray-300">
-              <div class="flex justify-between">
-                <span>Wednesday, Friday</span>
-                <span>9 PM - 1 AM</span>
-              </div>
-              <div class="flex justify-between">
-                <span>Sunday</span>
-                <span>7 PM - 11 PM</span>
-              </div>
-              <div class="text-sm text-gray-500">
-                Chill gaming, Music, Community vibes
+              <div class="text-sm text-gray-500 mt-3">
+                {{ streamer.contentTypes?.join(', ') }}
               </div>
             </div>
           </div>
@@ -301,62 +286,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import type {  Streamer } from '@/types/streamer'
+import streamersData from '@/content/streamers.json'
 
-// BTG Streamer data
-const streamers = ref([
-  {
-    id: 1,
-    displayName: 'Acekydtv',
-    initials: 'AK',
-    twitchHandle: 'acekydtv',
-    role: 'The Captain & Creative',
-    description: 'Tech, vibes, and late-night FIFA sessions. The mastermind behind BTG\'s creative direction. Ace brings technical expertise and community leadership to every stream, creating the perfect blend of competitive gaming and chill vibes.',
-    isLive: true, // Updated to show live
-    currentGame: 'FIFA 24',
-    lastStreamTitle: 'BTG Community Night | FIFA Pro Clubs',
-    followers: '3.2K',
-    hoursStreamed: '180',
-    rating: '4.9',
-    twitter: 'acekydtv',
-    instagram: null,
-    youtube: 'acekydtv'
-  },
-  {
-    id: 2,
-    displayName: 'Hey_olla',
-    initials: 'HO',
-    twitchHandle: 'hey_olla',
-    role: 'The Stylish Sharpshooter',
-    description: 'Fashion meets precision gaming. Expect fun, style, and absolutely clean snipes every stream. Hey_olla brings a unique blend of lifestyle content and high-skill FPS gameplay that keeps the community engaged and entertained.',
-    isLive: true, // Updated to show live
-    currentGame: 'Call of Duty',
-    lastStreamTitle: 'Sunday Snipes & Style Talk',
-    followers: '2.8K',
-    hoursStreamed: '145',
-    rating: '4.8',
-    twitter: 'hey_olla',
-    instagram: 'hey_olla',
-    youtube: null
-  },
-  {
-    id: 3,
-    displayName: 'Ab_wavy',
-    initials: 'AW',
-    twitchHandle: 'ab_wavy',
-    role: 'The Vibe Master',
-    description: 'Smooth gameplay meets chill streams. Known for creating the perfect gaming atmosphere where skill and relaxation come together. Ab_wavy specializes in creating an inclusive space where everyone feels welcome to game and vibe.',
-    isLive: false, // Updated to show offline for variety
-    currentGame: 'Apex Legends',
-    lastStreamTitle: 'Chill Wednesday Vibes | Community Games',
-    followers: '2.1K',
-    hoursStreamed: '120',
-    rating: '4.7',
-    twitter: 'ab_wavy',
-    instagram: null,
-    youtube: null
-  }
-])
+// Streamers data
+const streamers = computed<Streamer[]>(() => (streamersData.streamers ?? [])
+  .filter((s) => s.active)
+  .sort((a, b) => a.order - b.order))
+
+// Schedule helper to avoid template errors
+const getScheduleEntries = (streamer: Streamer): [string, string][] => {
+  const schedule = streamer.schedule
+  if (!schedule) return []
+  return Object.entries(schedule).filter(([, time]) => Boolean(time) && time !== 'Offline') as [string, string][]
+}
+
+// Map tailwind color tokens to hex for inline gradient style (avoids safelist issues)
+const tailwindHex: Record<string, string> = {
+  'purple-400': '#c084fc',
+  'blue-400': '#60a5fa',
+  'blue-500': '#3b82f6',
+  'cyan-400': '#22d3ee',
+  'green-400': '#34d399',
+  'emerald-400': '#34d399',
+}
+
+const getHex = (token: string): string => tailwindHex[token] || '#6b7280'
 
 // Meta tags
 useHead({

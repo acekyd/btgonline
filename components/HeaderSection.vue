@@ -164,6 +164,7 @@ const navItems = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
   { name: 'Stream Team', path: '/teams' },
+  { name: 'Tournaments', path: '/tournament' },
   { name: 'Shop', path: '/shop' },
 ];
 

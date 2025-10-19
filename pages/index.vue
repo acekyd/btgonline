@@ -83,9 +83,9 @@
         <!-- Discord CTA -->
         <div class="mt-12 animate-slide-in-up animation-delay-1000">
           <p class="text-lg text-gray-400 mb-4">Ready to join the BTG family?</p>
-          <UButton size="lg" color="indigo" variant="solid"
+          <UButton size="lg" variant="solid"
             class="px-8 py-3 text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition-colors"
-            to="#" target="_blank">
+            to="https://discord.gg/HF7WAkJ4" target="_blank">
             <UIcon name="i-simple-icons-discord" class="mr-2" />
             Join Our Discord
           </UButton>
@@ -167,59 +167,64 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center group hover:border-purple-500 transition-all duration-300">
-            <div class="w-24 h-24 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full mx-auto mb-6 flex items-center justify-center">
-              <span class="text-2xl font-black text-white">AK</span>
+          <div
+            v-for="s in streamers"
+            :key="s.id"
+            class="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center group hover:border-purple-500 transition-all duration-300"
+          >
+            <div
+              class="w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center"
+              :style="{ background: `linear-gradient(to right, ${getHex(s.color.from)}, ${getHex(s.color.to)})` }"
+            >
+              <span class="text-2xl font-black text-white">{{ s.initials }}</span>
             </div>
-            <h3 class="text-2xl font-bold text-white mb-2">Acekydtv</h3>
-            <p class="text-purple-400 font-medium mb-4">The Captain & Creative</p>
-            <p class="text-gray-400 mb-6">Tech, vibes, and late-night FIFA sessions. The mastermind behind BTG's creative direction.</p>
+            <h3 class="text-2xl font-bold text-white mb-2">{{ s.name }}</h3>
+            <p class="text-purple-400 font-medium mb-4">{{ s.role }}</p>
+            <p class="text-gray-400 mb-6">{{ s.bio }}</p>
             <div class="flex justify-center space-x-3">
-              <UButton size="sm" color="purple" variant="soft" to="#" target="_blank">
+              <UButton
+                v-if="s.links?.twitch"
+                size="sm"
+                color="primary"
+                variant="soft"
+                :to="s.links.twitch"
+                target="_blank"
+              >
                 <UIcon name="i-simple-icons-twitch" class="mr-1" />
                 Twitch
               </UButton>
-              <UButton size="sm" color="neutral" variant="ghost" to="#" target="_blank">
+              <UButton
+                v-if="s.links?.twitter"
+                size="sm"
+                color="neutral"
+                variant="ghost"
+                :to="s.links.twitter"
+                target="_blank"
+              >
                 <UIcon name="i-simple-icons-twitter" class="mr-1" />
                 Twitter
               </UButton>
-            </div>
-          </div>
-
-          <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center group hover:border-blue-500 transition-all duration-300">
-            <div class="w-24 h-24 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full mx-auto mb-6 flex items-center justify-center">
-              <span class="text-2xl font-black text-white">HO</span>
-            </div>
-            <h3 class="text-2xl font-bold text-white mb-2">Hey_olla</h3>
-            <p class="text-blue-400 font-medium mb-4">The Stylish Sharpshooter</p>
-            <p class="text-gray-400 mb-6">Fashion meets precision gaming. Expect fun, style, and absolutely clean snipes every stream.</p>
-            <div class="flex justify-center space-x-3">
-              <UButton size="sm" color="blue" variant="soft" to="#" target="_blank">
-                <UIcon name="i-simple-icons-twitch" class="mr-1" />
-                Twitch
-              </UButton>
-              <UButton size="sm" color="neutral" variant="ghost" to="#" target="_blank">
+              <UButton
+                v-if="s.links?.instagram"
+                size="sm"
+                color="neutral"
+                variant="ghost"
+                :to="s.links.instagram"
+                target="_blank"
+              >
                 <UIcon name="i-simple-icons-instagram" class="mr-1" />
                 Instagram
               </UButton>
-            </div>
-          </div>
-
-          <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center group hover:border-green-500 transition-all duration-300">
-            <div class="w-24 h-24 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full mx-auto mb-6 flex items-center justify-center">
-              <span class="text-2xl font-black text-white">AW</span>
-            </div>
-            <h3 class="text-2xl font-bold text-white mb-2">Ab_wavy</h3>
-            <p class="text-green-400 font-medium mb-4">The Vibe Master</p>
-            <p class="text-gray-400 mb-6">Smooth gameplay meets chill streams. Known for creating the perfect gaming atmosphere.</p>
-            <div class="flex justify-center space-x-3">
-              <UButton size="sm" color="green" variant="soft" to="#" target="_blank">
-                <UIcon name="i-simple-icons-twitch" class="mr-1" />
-                Twitch
-              </UButton>
-              <UButton size="sm" color="neutral" variant="ghost" to="#" target="_blank">
-                <UIcon name="i-simple-icons-twitter" class="mr-1" />
-                Twitter
+              <UButton
+                v-if="s.links?.youtube"
+                size="sm"
+                color="error"
+                variant="soft"
+                :to="s.links.youtube"
+                target="_blank"
+              >
+                <UIcon name="i-simple-icons-youtube" class="mr-1" />
+                YouTube
               </UButton>
             </div>
           </div>
@@ -251,13 +256,13 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <UButton size="xl" color="white" variant="solid"
-                class="px-8 py-4 text-lg font-bold text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
+              <UButton size="xl" variant="solid"
+                class="px-8 py-4 text-lg font-bold bg-white text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
                 to="#" target="_blank">
                 <UIcon name="i-simple-icons-discord" class="mr-2" />
                 Join Discord
               </UButton>
-              <UButton size="xl" color="neutral" variant="outline"
+              <UButton size="xl" variant="outline"
                 class="px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-purple-800 transition-all duration-300"
                 to="/about">
                 <UIcon name="i-heroicons-information-circle" class="mr-2" />
@@ -285,6 +290,7 @@
 </template>
 
 <script setup lang="ts">
+import type { StreamersDoc, Streamer } from '@/types/streamer'
 // BTG meta tags
 useHead({
   title: 'Bravo Trashe Gaming - Community Esports Organization',
@@ -362,4 +368,25 @@ useHead({
     `
   }]
 })
+
+// Streamers content
+const { data: streamersDoc } = await useAsyncData<StreamersDoc>(
+  'streamers',
+  () => queryContent('/streamers').findOne() as Promise<StreamersDoc>
+)
+const streamers = computed<Streamer[]>(() => (streamersDoc.value?.streamers ?? [])
+  .filter((s) => s.active)
+  .sort((a, b) => a.order - b.order))
+
+// Map tailwind color tokens to hex for inline gradient style (avoids safelist issues)
+const tailwindHex: Record<string, string> = {
+  'purple-400': '#c084fc',
+  'blue-400': '#60a5fa',
+  'blue-500': '#3b82f6',
+  'cyan-400': '#22d3ee',
+  'green-400': '#34d399',
+  'emerald-400': '#34d399',
+}
+
+const getHex = (token: string): string => tailwindHex[token] || '#6b7280'
 </script>

@@ -34,22 +34,22 @@
         <div>
           <h3 class="text-white font-bold mb-4">Community</h3>
           <div class="space-y-3">
-            <a href="#" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors text-sm">
+            <a href="https://discord.gg/HF7WAkJ4" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors text-sm">
               <UIcon name="i-simple-icons-discord" class="w-4 h-4" />
               Discord
             </a>
-            <a href="#" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors text-sm">
+            <!-- <a href="#" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors text-sm">
               <UIcon name="i-simple-icons-twitch" class="w-4 h-4" />
               Twitch
-            </a>
-            <a href="#" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors text-sm">
+            </a> -->
+            <a href="https://x.com/BTGOnline" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors text-sm">
               <UIcon name="i-simple-icons-twitter" class="w-4 h-4" />
               Twitter
             </a>
-            <a href="#" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors text-sm">
+            <!-- <a href="#" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors text-sm">
               <UIcon name="i-simple-icons-instagram" class="w-4 h-4" />
               Instagram
-            </a>
+            </a> -->
           </div>
         </div>
       </div>

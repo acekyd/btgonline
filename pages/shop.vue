@@ -178,14 +178,14 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-              <UButton size="xl" color="white" variant="solid"
+              <UButton size="xl" color="neutral" variant="outline"
                 class="px-8 py-4 text-lg font-bold text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
                 to="#" target="_blank">
                 <UIcon name="i-simple-icons-discord" class="mr-2" />
                 Join Discord for Updates
               </UButton>
               <UButton size="xl" color="neutral" variant="outline"
-                class="px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-purple-800 transition-all duration-300"
+                class="px-8 py-4 text-lg font-semibold border-2 border-white hover:bg-white text-purple-800 transition-all duration-300"
                 @click="showEmailSignup = true">
                 <UIcon name="i-heroicons-envelope" class="mr-2" />
                 Join Mailing List
@@ -260,7 +260,7 @@
               <UIcon name="i-heroicons-arrow-left" class="mr-2" />
               Back to Home
             </UButton>
-            <UButton size="lg" color="indigo" variant="solid" to="#" target="_blank"
+            <UButton size="lg" color="neutral" variant="solid" to="https://discord.gg/HF7WAkJ4" target="_blank"
               class="px-6 py-3">
               <UIcon name="i-simple-icons-discord" class="mr-2" />
               Join Discord
