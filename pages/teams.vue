@@ -2,188 +2,147 @@
   <div class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
     <!-- Header Section -->
     <section class="relative py-20 bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-gray-900/90">
-      <!-- Gaming Grid Pattern -->
       <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9nPjwvc3ZnPg==')] opacity-20"></div>
       
-      <div class="relative z-10 max-w-7xl mx-auto px-4 text-center">
-        <h1 class="text-5xl md:text-7xl font-black text-white mb-6">
-          BTG <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">STREAM TEAM</span>
-        </h1>
-        <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-          Meet the personalities that bring our community to life with epic gameplay, authentic content, and endless entertainment
-        </p>
-        
-        <!-- Stream Stats -->
-        <div class="flex justify-center gap-6 mb-10">
-          <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
-            <div class="text-2xl font-bold text-purple-400">{{ streamers.length }}</div>
-            <div class="text-gray-300 text-sm">Featured Streamers</div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 text-center space-y-10">
+        <div>
+          <h1 class="text-5xl md:text-7xl font-black text-white mb-6">
+            BTG <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">TEAMS</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Meet the squads that carry the BTG banner across leagues, ladders, and live events. Each roster is built different, united under one mission: push competitive culture forward.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <div class="bg-white/10 backdrop-blur-md rounded-lg px-6 py-5 border border-white/20 text-center min-w-[160px]">
+            <div class="text-3xl font-black text-purple-300">{{ totalTeams }}</div>
+            <div class="text-gray-300 text-sm uppercase tracking-wider">Active Teams</div>
           </div>
-          <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
-            <div class="text-2xl font-bold text-blue-400">LIVE</div>
-            <div class="text-gray-300 text-sm">Streams Daily</div>
+          <div class="bg-white/10 backdrop-blur-md rounded-lg px-6 py-5 border border-white/20 text-center min-w-[160px]">
+            <div class="text-3xl font-black text-blue-300">{{ uniqueRegions }}</div>
+            <div class="text-gray-300 text-sm uppercase tracking-wider">Regions Repped</div>
           </div>
-          <div class="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
-            <div class="text-2xl font-bold text-green-400">5K+</div>
-            <div class="text-gray-300 text-sm">Community</div>
+          <div class="bg-white/10 backdrop-blur-md rounded-lg px-6 py-5 border border-white/20 text-center min-w-[160px]">
+            <div class="text-3xl font-black text-emerald-300">{{ totalPlayers }}</div>
+            <div class="text-gray-300 text-sm uppercase tracking-wider">Core Players</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-16">
-      <!-- Featured Streamers -->
-      <section class="mb-20">
-        <div class="grid grid-cols-1 lg:grid-cols-1 gap-12">
-          <!-- Streamer Cards -->
+    <main class="max-w-7xl mx-auto px-4 py-16 space-y-20">
+      <!-- Teams Grid -->
+      <section>
+        <div class="grid grid-cols-1 gap-12">
           <div
-            v-for="(streamer, index) in streamers"
-            :key="streamer.id"
-            class="group bg-gray-800 rounded-3xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-all duration-500 hover:transform hover:scale-[1.02]"
+            v-for="team in teams"
+            :key="team.id"
+            class="group bg-gray-800/80 rounded-3xl overflow-hidden border border-gray-700/80 hover:border-purple-500 transition-all duration-500 hover:translate-y-[-4px] hover:shadow-2xl"
           >
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
-              <!-- Twitch Embed Section -->
-              <div class="relative bg-gray-900 flex items-center justify-center min-h-[400px] lg:min-h-[500px]">
-                <!-- Twitch Embed will go here -->
-                <div class="w-full h-full">
-                  <!-- Live Stream Embed -->
-                  <div v-if="streamer.isLive" class="w-full h-full">
-                    <iframe
-                      :src="`https://player.twitch.tv/?channel=${streamer.handle}&parent=localhost&parent=btgaming.com&muted=false`"
-                      class="w-full h-full border-0"
-                      allowfullscreen>
-                    </iframe>
-                  </div>
-                  
-                  <!-- Offline State -->
-                  <div v-else class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-center p-8">
+            <div class="grid grid-cols-1 lg:grid-cols-[1.6fr_1.4fr] gap-0">
+              <div class="relative p-10 lg:p-12 flex flex-col gap-8">
+                <div class="absolute inset-0 opacity-25 transition-opacity duration-300 group-hover:opacity-35" :style="{ background: getGradient(team) }"></div>
+                <div class="relative z-10 flex flex-col gap-8">
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-6">
                     <div 
-                      class="w-32 h-32 rounded-full flex items-center justify-center mb-6"
-                      :style="{ background: `linear-gradient(to right, ${getHex(streamer.color.from)}, ${getHex(streamer.color.to)})` }"
+                      class="w-20 h-20 rounded-3xl overflow-hidden flex items-center justify-center text-3xl font-black text-white shadow-xl ring-2 ring-white/10"
+                      :style="{ background: getGradient(team) }"
                     >
-                      <span class="text-4xl font-black text-white">{{ streamer.initials }}</span>
+                      <img
+                        v-if="team.logo"
+                        :src="team.logo"
+                        :alt="`${team.name} logo`"
+                        class="w-full h-full object-cover">
+                      <span v-else>{{ getTeamInitials(team.name) }}</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-2">{{ streamer.name }}</h3>
-                    <p class="text-gray-400 mb-4">Currently Offline</p>
-                    <p class="text-sm text-gray-500 mb-6">Last streamed: {{ streamer.lastStreamTitle }}</p>
-                    <UButton 
-                      :to="streamer.links?.twitch || '#'" 
+                    <div>
+                      <h2 class="text-4xl font-black text-white mb-2">{{ team.name }}</h2>
+                      <p class="text-lg text-purple-200/90 max-w-xl">{{ team.tagline || 'Built different. Playing for the culture.' }}</p>
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                    <div class="bg-white/5 rounded-2xl border border-white/10 p-4">
+                      <div class="text-xs uppercase tracking-widest text-gray-400 mb-1">Region</div>
+                      <div class="text-lg font-semibold text-white">{{ team.region || 'Global' }}</div>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl border border-white/10 p-4">
+                      <div class="text-xs uppercase tracking-widest text-gray-400 mb-1">Division</div>
+                      <div class="text-lg font-semibold text-white">{{ team.division || 'Independent' }}</div>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl border border-white/10 p-4">
+                      <div class="text-xs uppercase tracking-widest text-gray-400 mb-1">Captain</div>
+                      <div class="text-lg font-semibold text-white">{{ team.captain || 'Announced Soon' }}</div>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl border border-white/10 p-4">
+                      <div class="text-xs uppercase tracking-widest text-gray-400 mb-1">Founded</div>
+                      <div class="text-lg font-semibold text-white">{{ team.founded || '—' }}</div>
+                    </div>
+                  </div>
+
+                  <div v-if="team.playstyle" class="bg-white/5 rounded-2xl border border-white/10 p-5 text-left">
+                    <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Identity</div>
+                    <p class="text-gray-200 leading-relaxed">{{ team.playstyle }}</p>
+                  </div>
+
+                  <div v-if="getTeamLinks(team).length" class="flex flex-wrap gap-3">
+                    <UButton
+                      v-for="link in getTeamLinks(team)"
+                      :key="`${team.id}-${link.key}`"
+                      :to="link.url"
                       target="_blank"
-                      size="sm" 
-                      color="primary" 
-                      variant="solid"
-                      class="mb-4">
-                      <UIcon name="i-simple-icons-twitch" class="mr-2" />
-                      Visit Channel
+                      :color="link.color"
+                      :variant="link.variant"
+                      size="sm"
+                      class="uppercase tracking-wide"
+                    >
+                      <UIcon :name="link.icon" class="mr-2" />
+                      {{ link.label }}
                     </UButton>
-                    <div class="text-xs text-gray-500">
-                      <UIcon name="i-heroicons-clock" class="inline mr-1" />
-                      Check back soon for live streams!
-                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Streamer Info Section -->
-              <div class="p-8 lg:p-12 flex flex-col justify-center">
-                <div class="mb-6">
-                  <div class="flex items-center mb-4">
-                    <div 
-                      class="w-16 h-16 rounded-full flex items-center justify-center mr-4"
-                      :style="{ background: `linear-gradient(to right, ${getHex(streamer.color.from)}, ${getHex(streamer.color.to)})` }"
-                    >
-                      <span class="text-xl font-black text-white">{{ streamer.initials }}</span>
-                    </div>
-                    <div>
-                      <h2 class="text-3xl font-black text-white mb-1">{{ streamer.name }}</h2>
-                      <p class="text-purple-400 font-semibold">{{ streamer.role }}</p>
-                    </div>
+              <div class="relative border-t lg:border-t-0 lg:border-l border-gray-700/60 bg-gray-900/70">
+                <div class="absolute inset-0" :style="{ background: `${getGradient(team)}20` }"></div>
+                <div class="relative z-10 p-8 lg:p-10 flex flex-col gap-8">
+                  <div v-if="team.achievements?.length" class="space-y-4">
+                    <h3 class="text-xl font-semibold text-white flex items-center gap-2">
+                      <UIcon name="i-heroicons-trophy" class="w-5 h-5 text-yellow-300" />
+                      Recent Honors
+                    </h3>
+                    <ul class="space-y-3 text-gray-200">
+                      <li
+                        v-for="achievement in team.achievements"
+                        :key="`${team.id}-${achievement}`"
+                        class="flex items-start gap-3"
+                      >
+                        <UIcon name="i-heroicons-check-circle" class="w-5 h-5 text-purple-300 mt-0.5" />
+                        <span>{{ achievement }}</span>
+                      </li>
+                    </ul>
                   </div>
-                  
-                  <!-- Live Status -->
-                  <div class="flex items-center mb-6">
-                    <div :class="[
-                      'w-3 h-3 rounded-full mr-2',
-                      streamer.isLive ? 'bg-red-500 animate-pulse' : 'bg-gray-500'
-                    ]"></div>
-                    <span :class="[
-                      'text-sm font-medium',
-                      streamer.isLive ? 'text-red-400' : 'text-gray-400'
-                    ]">
-                      {{ streamer.isLive ? 'LIVE NOW' : 'OFFLINE' }}
-                    </span>
-                    <span v-if="streamer.isLive" class="text-gray-400 ml-2 text-sm">
-                      • {{ streamer.currentGame }}
-                    </span>
-                  </div>
-                </div>
 
-                <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                  {{ streamer.description || streamer.bio }}
-                </p>
-                
-                <!-- Stats -->
-                <div class="grid grid-cols-3 gap-4 mb-8">
-                  <div class="text-center p-3 bg-gray-700/50 rounded-lg">
-                    <UIcon name="i-heroicons-users" class="w-5 h-5 text-purple-400 mx-auto mb-1" />
-                    <div class="text-lg font-bold text-white">{{ streamer.followers || '2.5K' }}</div>
-                    <div class="text-gray-400 text-xs">Followers</div>
+                  <div v-if="team.members?.length" class="space-y-4">
+                    <h3 class="text-xl font-semibold text-white flex items-center gap-2">
+                      <UIcon name="i-heroicons-user-group" class="w-5 h-5 text-blue-300" />
+                      Core Roster
+                    </h3>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <li
+                        v-for="member in team.members"
+                        :key="`${team.id}-${member.gamerTag}`"
+                        class="bg-white/5 border border-white/10 rounded-xl p-4"
+                      >
+                        <div class="text-white font-semibold">{{ member.gamerTag }}</div>
+                        <div class="text-xs uppercase tracking-widest text-purple-200/90 mt-1">
+                          {{ member.role }}
+                        </div>
+                      </li>
+                    </ul>
                   </div>
-                  <div class="text-center p-3 bg-gray-700/50 rounded-lg">
-                    <UIcon name="i-heroicons-clock" class="w-5 h-5 text-blue-400 mx-auto mb-1" />
-                    <div class="text-lg font-bold text-white">{{ streamer.hoursStreamed || '150' }}</div>
-                    <div class="text-gray-400 text-xs">Hours</div>
-                  </div>
-                  <div class="text-center p-3 bg-gray-700/50 rounded-lg">
-                    <UIcon name="i-heroicons-star" class="w-5 h-5 text-yellow-400 mx-auto mb-1" />
-                    <div class="text-lg font-bold text-white">{{ streamer.rating || '4.9' }}</div>
-                    <div class="text-gray-400 text-xs">Rating</div>
-                  </div>
-                </div>
-
-                <!-- Social Links -->
-                <div class="flex flex-wrap gap-3">
-                  <UButton 
-                    v-if="streamer.links?.twitch"
-                    :to="streamer.links.twitch" 
-                    target="_blank"
-                    size="sm" 
-                    color="primary" 
-                    variant="solid">
-                    <UIcon name="i-simple-icons-twitch" class="mr-2" />
-                    Twitch
-                  </UButton>
-                  <UButton 
-                    v-if="streamer.links?.twitter"
-                    :to="streamer.links.twitter" 
-                    target="_blank"
-                    size="sm" 
-                    color="neutral" 
-                    variant="outline">
-                    <UIcon name="i-simple-icons-twitter" class="mr-2" />
-                    Twitter
-                  </UButton>
-                  <UButton 
-                    v-if="streamer.links?.instagram"
-                    :to="streamer.links.instagram" 
-                    target="_blank"
-                    size="sm" 
-                    color="neutral" 
-                    variant="outline">
-                    <UIcon name="i-simple-icons-instagram" class="mr-2" />
-                    Instagram
-                  </UButton>
-                  <UButton 
-                    v-if="streamer.links?.youtube"
-                    :to="streamer.links.youtube" 
-                    target="_blank"
-                    size="sm" 
-                    color="error" 
-                    variant="outline">
-                    <UIcon name="i-simple-icons-youtube" class="mr-2" />
-                    YouTube
-                  </UButton>
                 </div>
               </div>
             </div>
@@ -191,92 +150,44 @@
         </div>
       </section>
 
-      <!-- Community Section -->
-      <section class="mb-20">
+      <!-- Culture CTA -->
+      <section>
         <div class="bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-600 rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
-          <!-- Background Pattern -->
-          <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9nPjwvc3ZnPg==')] opacity-20"></div>
+          <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9nPjwvc3ZnPg==')] opacity-15"></div>
           
           <div class="relative z-10">
             <h2 class="text-4xl md:text-6xl font-black text-white mb-6">
-              Join the Stream Squad
+              Build With The Squad
             </h2>
             <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Follow our streamers, join the chat, and become part of the BTG gaming community.
+              We recruit grinders, visionaries, and glue players. Join the BTG Discord to hit trials, scout talent, and stay tapped into roster moves.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <UButton size="xl" color="primary" variant="solid"
-                class="px-8 py-4 text-lg font-bold text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
-                to="#" target="_blank">
+                class="px-8 py-4 text-lg font-bold text-purple-900 hover:scale-105 transition-all duration-300 shadow-2xl"
+                to="https://discord.gg/HF7WAkJ4" target="_blank">
                 <UIcon name="i-simple-icons-discord" class="mr-2" />
                 Join Discord
               </UButton>
               <UButton size="xl" variant="outline"
                 class="px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-purple-800 transition-all duration-300"
-                to="/">
-                <UIcon name="i-heroicons-arrow-left" class="mr-2" />
-                Back to Home
+                to="/streams">
+                <UIcon name="i-heroicons-play-circle" class="mr-2" />
+                Meet Our Stream Team
               </UButton>
             </div>
 
-            <!-- Quick Social Links -->
             <div class="flex justify-center space-x-6">
-              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+              <a href="https://x.com/BTGOnline" target="_blank" class="text-white/70 hover:text-white transition-colors">
                 <UIcon name="i-simple-icons-twitter" class="w-6 h-6" />
               </a>
-              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
-                <UIcon name="i-simple-icons-instagram" class="w-6 h-6" />
+              <a href="https://discord.gg/HF7WAkJ4" target="_blank" class="text-white/70 hover:text-white transition-colors">
+                <UIcon name="i-simple-icons-discord" class="w-6 h-6" />
               </a>
-              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
-                <UIcon name="i-simple-icons-youtube" class="w-6 h-6" />
+              <a href="/shop" class="text-white/70 hover:text-white transition-colors">
+                <UIcon name="i-heroicons-shopping-bag" class="w-6 h-6" />
               </a>
-              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
-                <UIcon name="i-simple-icons-twitch" class="w-6 h-6" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Stream Schedule Preview -->
-      <section>
-        <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
-            Stream <span class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Schedule</span>
-          </h2>
-          <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-            Catch your favorite streamers at their regular streaming times
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div 
-            v-for="streamer in streamers" 
-            :key="streamer.id"
-            class="bg-gray-800 rounded-2xl p-6 border border-gray-700"
-          >
-            <h3 
-              class="text-xl font-bold mb-4"
-              :style="{ color: getHex(streamer.color.from) }"
-            >
-              {{ streamer.name }}
-            </h3>
-            <div class="space-y-2 text-gray-300">
-              <div 
-                v-for="entry in getScheduleEntries(streamer)"
-                :key="entry[0]"
-                class="flex justify-between"
-              >
-                <span class="capitalize">{{ entry[0] }}</span>
-                <span>{{ entry[1] }}</span>
-              </div>
-              <div v-if="getScheduleEntries(streamer).length === 0" class="text-gray-500 text-sm">
-                Schedule TBD
-              </div>
-              <div class="text-sm text-gray-500 mt-3">
-                {{ streamer.contentTypes?.join(', ') }}
-              </div>
             </div>
           </div>
         </div>
@@ -286,39 +197,81 @@
 </template>
 
 <script setup lang="ts">
-import type {  Streamer } from '@/types/streamer'
-import streamersData from '@/content/streamers.json'
+import { computed } from 'vue'
+import type { Team, TeamsDoc, TeamLinks } from '@/types/team'
+import teamsData from '@/content/teams.json'
 
-// Streamers data
-const streamers = computed<Streamer[]>(() => (streamersData.streamers ?? [])
-  .filter((s) => s.active)
-  .sort((a, b) => a.order - b.order))
+const teams = computed<Team[]>(() => {
+  const payload = (teamsData as TeamsDoc).teams ?? []
+  return [...payload].sort((a, b) => a.name.localeCompare(b.name))
+})
 
-// Schedule helper to avoid template errors
-const getScheduleEntries = (streamer: Streamer): [string, string][] => {
-  const schedule = streamer.schedule
-  if (!schedule) return []
-  return Object.entries(schedule).filter(([, time]) => Boolean(time) && time !== 'Offline') as [string, string][]
+const totalTeams = computed(() => teams.value.length)
+const uniqueRegions = computed(() => {
+  const regions = new Set<string>()
+  teams.value.forEach((team) => {
+    if (team.region) regions.add(team.region)
+  })
+  return regions.size || 1
+})
+const totalPlayers = computed(() =>
+  teams.value.reduce((count, team) => count + (team.members?.length ?? 0), 0)
+)
+
+const DEFAULT_COLORS = ['#6D28D9', '#1E40AF']
+
+const getGradient = (team: Team): string => {
+  const colors = (team.primaryColors?.length ? team.primaryColors : DEFAULT_COLORS).slice()
+  if (colors.length === 1) colors.push(colors[0])
+  return `linear-gradient(135deg, ${colors[0]}, ${colors[colors.length - 1]})`
 }
 
-// Map tailwind color tokens to hex for inline gradient style (avoids safelist issues)
-const tailwindHex: Record<string, string> = {
-  'purple-400': '#c084fc',
-  'blue-400': '#60a5fa',
-  'blue-500': '#3b82f6',
-  'cyan-400': '#22d3ee',
-  'green-400': '#34d399',
-  'emerald-400': '#34d399',
+const getTeamInitials = (name?: string): string => {
+  if (!name) return 'BTG'
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('')
+    .slice(0, 3) || 'BTG'
 }
 
-const getHex = (token: string): string => tailwindHex[token] || '#6b7280'
+type TeamLinkKey = keyof TeamLinks
 
-// Meta tags
+interface TeamLinkOption {
+  key: TeamLinkKey
+  label: string
+  icon: string
+  color?: 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'error' | 'neutral'
+  variant?: 'solid' | 'outline' | 'ghost'
+}
+
+interface TeamLinkResolved extends TeamLinkOption {
+  url: string
+}
+
+const teamLinkConfig: TeamLinkOption[] = [
+  { key: 'discord', label: 'Discord', icon: 'i-simple-icons-discord', color: 'primary', variant: 'solid' },
+  { key: 'twitter', label: 'Twitter', icon: 'i-simple-icons-twitter', color: 'neutral', variant: 'outline' },
+  { key: 'twitch', label: 'Twitch', icon: 'i-simple-icons-twitch', color: 'primary', variant: 'outline' },
+  { key: 'youtube', label: 'YouTube', icon: 'i-simple-icons-youtube', color: 'error', variant: 'outline' },
+  { key: 'instagram', label: 'Instagram', icon: 'i-simple-icons-instagram', color: 'neutral', variant: 'outline' },
+  { key: 'website', label: 'Website', icon: 'i-heroicons-globe-alt', color: 'neutral', variant: 'ghost' },
+]
+
+const getTeamLinks = (team: Team): TeamLinkResolved[] =>
+  teamLinkConfig
+    .filter((entry) => Boolean(team.links?.[entry.key]))
+    .map((entry) => ({
+      ...entry,
+      url: team.links?.[entry.key] as string,
+    }))
+
 useHead({
-  title: 'Stream Team - BTG Gaming',
+  title: 'BTG Teams - Bravo Trashe Gaming',
   meta: [
-    { name: 'description', content: 'Meet the BTG Stream Team. Watch live Twitch streams, follow your favorite streamers, and join our gaming community.' },
-    { name: 'keywords', content: 'BTG streamers, Twitch, gaming community, esports, live streaming, Acekydtv, Hey_olla, Ab_wavy' }
+    { name: 'description', content: 'Meet the BTG competitive rosters redefining community esports. Explore squads, rosters, achievements, and learn how to join the movement.' },
+    { name: 'keywords', content: 'BTG teams, esports roster, pro clubs, competitive gaming, Bravo Trashe Gaming, team recruitment' }
   ]
 })
 </script>

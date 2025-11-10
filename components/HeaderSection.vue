@@ -45,7 +45,7 @@
         <!-- Social Links -->
         <div class="hidden md:flex items-center gap-2">
           <a 
-            href="#" 
+            href="https://discord.gg/HF7WAkJ4" 
             target="_blank" 
             rel="noopener" 
             aria-label="Discord"
@@ -56,7 +56,7 @@
           </a>
           
           <a 
-            href="#" 
+            href="https://x.com/BTGOnline" 
             target="_blank" 
             rel="noopener" 
             aria-label="Twitter"
@@ -128,7 +128,7 @@
           <!-- Mobile Social Links -->
           <div class="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-purple-500/30">
             <a 
-              href="#" 
+              href="https://discord.gg/HF7WAkJ4" 
               target="_blank" 
               rel="noopener" 
               aria-label="Discord"
@@ -138,7 +138,7 @@
             </a>
             
             <a 
-              href="#" 
+              href="https://x.com/BTGOnline" 
               target="_blank" 
               rel="noopener" 
               aria-label="Twitter"
@@ -154,8 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import ColorModeToggle from "@/components/ColorModeToggle.vue";
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
@@ -163,7 +162,8 @@ const mobileMenuOpen = ref(false);
 const navItems = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
-  { name: 'Stream Team', path: '/teams' },
+  { name: 'Teams', path: '/teams' },
+  { name: 'Streams', path: '/streams' },
   { name: 'Tournaments', path: '/tournament' },
   { name: 'Shop', path: '/shop' },
 ];

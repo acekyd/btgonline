@@ -180,7 +180,7 @@
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <UButton size="xl" color="neutral" variant="outline"
                 class="px-8 py-4 text-lg font-bold text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
-                to="#" target="_blank">
+                to="https://discord.gg/HF7WAkJ4" target="_blank">
                 <UIcon name="i-simple-icons-discord" class="mr-2" />
                 Join Discord for Updates
               </UButton>

@@ -230,7 +230,7 @@
             </UButton>
             <UButton size="xl" color="neutral" variant="outline"
               class="px-8 py-4 text-lg font-semibold border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white transition-all duration-300"
-              to="#" target="_blank">
+              to="https://discord.gg/HF7WAkJ4" target="_blank">
               <UIcon name="i-simple-icons-discord" class="mr-2" />
               Join Discord
             </UButton>

@@ -133,7 +133,7 @@
             <div class="bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl p-8">
               <h3 class="text-2xl font-bold text-white mb-6">Connect With Us</h3>
               <div class="space-y-4">
-                <a href="#" target="_blank" class="flex items-center gap-4 bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 group">
+                <a href="https://discord.gg/HF7WAkJ4" target="_blank" class="flex items-center gap-4 bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 group">
                   <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                     <UIcon name="i-simple-icons-discord" class="w-6 h-6 text-white" />
                   </div>
@@ -143,7 +143,7 @@
                   </div>
                 </a>
 
-                <a href="#" target="_blank" class="flex items-center gap-4 bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 group">
+                <a href="https://x.com/BTGOnline" target="_blank" class="flex items-center gap-4 bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 group">
                   <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                     <UIcon name="i-simple-icons-twitch" class="w-6 h-6 text-white" />
                   </div>

@@ -65,10 +65,10 @@
               Built for the community, by the community
             </div>
             <div class="flex items-center gap-4">
-              <a href="#" target="_blank" class="text-gray-400 hover:text-purple-400 transition-colors">
+              <a href="https://discord.gg/HF7WAkJ4" target="_blank" class="text-gray-400 hover:text-purple-400 transition-colors">
                 <UIcon name="i-simple-icons-discord" class="w-5 h-5" />
               </a>
-              <a href="#" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://x.com/BTGOnline" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors">
                 <UIcon name="i-simple-icons-twitter" class="w-5 h-5" />
               </a>
               <a href="#" target="_blank" class="text-gray-400 hover:text-pink-400 transition-colors">

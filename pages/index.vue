@@ -258,7 +258,7 @@
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <UButton size="xl" variant="solid"
                 class="px-8 py-4 text-lg font-bold bg-white text-purple-800 hover:scale-105 transition-all duration-300 shadow-2xl"
-                to="#" target="_blank">
+                to="https://discord.gg/HF7WAkJ4" target="_blank">
                 <UIcon name="i-simple-icons-discord" class="mr-2" />
                 Join Discord
               </UButton>
@@ -272,7 +272,7 @@
 
             <!-- Social Links Preview -->
             <div class="mt-8 flex justify-center space-x-6">
-              <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
+              <a href="https://x.com/BTGOnline" target="_blank" class="text-white/60 hover:text-white transition-colors">
                 <UIcon name="i-simple-icons-twitter" class="w-6 h-6" />
               </a>
               <a href="#" target="_blank" class="text-white/60 hover:text-white transition-colors">
@@ -290,6 +290,7 @@
 </template>
 
 <script setup lang="ts">
+// import { queryContent } from '#content'
 import type { StreamersDoc, Streamer } from '@/types/streamer'
 // BTG meta tags
 useHead({
