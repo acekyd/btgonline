@@ -1,227 +1,283 @@
 <template>
-  <header
-    :class="[
-      'sticky top-0 z-50 transition-all duration-300',
-      isScrolled 
-        ? 'bg-gray-900/95 backdrop-blur-lg shadow-lg border-b border-purple-500/30' 
-        : 'bg-gray-900/80 backdrop-blur-md'
-    ]">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-      <!-- Logo Section -->
-      <div class="flex items-center gap-3">
-        <NuxtLink to="/" class="flex items-center gap-3">
-          <div class="relative group">
-            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-            <div class="relative rounded-xl shadow-lg overflow-hidden">
-              <NuxtImg src="/logo-white.png" alt="BTG Logo" class="w-10 h-10" />
+  <header class="w-full sticky top-0 z-50">
+    <!-- Top Bar - Teams & Social -->
+    <div class="bg-[#00152E] border-b border-white/10">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-10">
+          <!-- Left: Team badges -->
+          <div class="hidden md:flex items-center gap-3">
+            <span class="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">Teams</span>
+            <div class="flex items-center gap-1.5">
+              <NuxtLink 
+                v-for="team in teams" 
+                :key="team.id"
+                to="/teams" 
+                class="w-6 h-6 rounded flex items-center justify-center text-[9px] font-bold text-white transition-transform hover:scale-110"
+                :style="{ background: team.color }"
+                :title="team.name"
+              >
+                {{ team.abbr }}
+              </NuxtLink>
             </div>
           </div>
-          <div class="hidden sm:block">
-            <div class="text-xl font-black text-white">BTG</div>
-            <div class="text-xs text-purple-400 font-medium -mt-1">Gaming</div>
-          </div>
-        </NuxtLink>
-      </div>
-
-      <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-8">
-        <NuxtLink 
-          v-for="item in navItems" 
-          :key="item.name"
-          :to="item.path" 
-          :class="[
-            'relative px-4 py-2 font-semibold text-sm uppercase tracking-wide transition-all duration-300 group',
-            'text-white hover:text-purple-300'
-          ]"
-        >
-          {{ item.name }}
-          <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
-          <div class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
-        </NuxtLink>
-      </nav>
-
-      <!-- Right Section -->
-      <div class="flex items-center gap-4">
-        <!-- Social Links -->
-        <div class="hidden md:flex items-center gap-2">
-          <a 
-            href="https://discord.gg/HF7WAkJ4" 
-            target="_blank" 
-            rel="noopener" 
-            aria-label="Discord"
-            class="group relative p-2.5 rounded-full bg-gray-800/60 backdrop-blur-lg border border-purple-500/30 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 hover:-translate-y-0.5 shadow-lg"
-          >
-            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <UIcon name="i-simple-icons-discord" class="w-4 h-4 relative z-10 text-purple-400 group-hover:text-white" />
-          </a>
           
-          <a 
-            href="https://x.com/BTGOnline" 
-            target="_blank" 
-            rel="noopener" 
-            aria-label="Twitter"
-            class="group relative p-2.5 rounded-full bg-gray-800/60 backdrop-blur-lg border border-purple-500/30 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 hover:-translate-y-0.5 shadow-lg"
-          >
-            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <UIcon name="i-simple-icons-twitter" class="w-4 h-4 relative z-10 text-purple-400 group-hover:text-white" />
-          </a>
+          <!-- Right: Social links + Store -->
+          <div class="flex items-center gap-4 ml-auto">
+            <div class="flex items-center gap-3">
+              <a 
+                v-for="social in socials"
+                :key="social.name"
+                :href="social.url" 
+                target="_blank" 
+                rel="noopener"
+                class="text-gray-400 hover:text-white transition-colors"
+                :aria-label="social.name"
+              >
+                <UIcon :name="social.icon" class="w-3.5 h-3.5" />
+              </a>
+            </div>
+            <div class="w-px h-4 bg-white/20"></div>
+            <NuxtLink 
+              to="/shop" 
+              class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#E30613] text-white text-[10px] font-bold uppercase tracking-wider rounded hover:bg-[#FF1F2D] transition-colors"
+            >
+              BTG Store
+            </NuxtLink>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Mobile Menu Button -->
-        <button
-          @click="mobileMenuOpen = !mobileMenuOpen"
-          class="lg:hidden group relative p-2.5 rounded-full bg-gray-800/60 backdrop-blur-lg border border-purple-500/30 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-110 shadow-lg"
-          aria-label="Toggle mobile menu"
-        >
-          <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-          <svg class="w-5 h-5 relative z-10 text-purple-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path 
-              v-if="!mobileMenuOpen"
-              stroke-linecap="round" 
-              stroke-linejoin="round" 
-              stroke-width="2" 
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-            <path 
-              v-else
-              stroke-linecap="round" 
-              stroke-linejoin="round" 
-              stroke-width="2" 
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+    <!-- Main Navigation -->
+    <nav 
+      :class="[
+        'transition-shadow duration-200',
+        isScrolled ? 'shadow-lg' : ''
+      ]"
+      class="bg-[#001D3D]"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-14">
+          <!-- Logo -->
+          <NuxtLink to="/" class="flex items-center gap-2.5 group">
+            <div class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center overflow-hidden">
+              <NuxtImg src="/logo-white.png" alt="BTG" class="w-7 h-7 object-contain" />
+            </div>
+            <div class="hidden sm:block">
+              <div class="text-lg font-extrabold text-white leading-none">BTG</div>
+              <div class="text-[9px] text-gray-400 uppercase tracking-[0.2em] leading-none mt-0.5">Gaming</div>
+            </div>
+          </NuxtLink>
+
+          <!-- Desktop Nav -->
+          <div class="hidden lg:flex items-center gap-0.5">
+            <NuxtLink 
+              v-for="item in navItems" 
+              :key="item.name"
+              :to="item.path"
+              :class="[
+                'relative px-4 py-2 text-[13px] font-semibold uppercase tracking-wide transition-colors',
+                isActive(item.path) 
+                  ? 'text-white' 
+                  : 'text-gray-300 hover:text-white'
+              ]"
+            >
+              {{ item.name }}
+              <span 
+                v-if="isActive(item.path)"
+                class="absolute bottom-0 left-4 right-4 h-0.5 bg-[#E30613] rounded-full"
+              ></span>
+            </NuxtLink>
+          </div>
+
+          <!-- Right Actions -->
+          <div class="flex items-center gap-3">
+            <!-- Live Badge -->
+            <div v-if="isLive" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-red-600/20 border border-red-500/40 rounded">
+              <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
+              <span class="text-[10px] font-bold text-red-400 uppercase">Live</span>
+            </div>
+
+            <!-- Discord Button -->
+            <a 
+              href="https://discord.gg/HF7WAkJ4" 
+              target="_blank"
+              class="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#5865F2] text-white text-xs font-bold rounded hover:bg-[#4752C4] transition-colors"
+            >
+              <UIcon name="i-simple-icons-discord" class="w-3.5 h-3.5" />
+              <span>Join</span>
+            </a>
+
+            <!-- Mobile Menu Toggle -->
+            <button
+              @click="menuOpen = !menuOpen"
+              class="lg:hidden p-2 text-white hover:bg-white/10 rounded transition-colors"
+              aria-label="Menu"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path 
+                  v-if="!menuOpen"
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2" 
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+                <path 
+                  v-else
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2" 
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Quick Access Bar -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center gap-0 overflow-x-auto">
+          <NuxtLink 
+            v-for="item in quickLinks" 
+            :key="item.name"
+            :to="item.path"
+            class="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-500 hover:text-[#00152E] hover:bg-gray-50 border-b-2 border-transparent hover:border-[#E30613] whitespace-nowrap transition-all"
+          >
+            <UIcon :name="item.icon" class="w-4 h-4" />
+            <span>{{ item.name }}</span>
+          </NuxtLink>
+          
+          <div class="ml-auto hidden md:flex items-center py-3">
+            <NuxtLink to="/streams" class="text-sm font-semibold text-[#E30613] hover:underline">
+              Watch LIVE →
+            </NuxtLink>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Mobile Menu -->
     <Transition
-      enter-active-class="transition-all duration-300 ease-out"
-      enter-from-class="opacity-0 transform -translate-y-4"
-      enter-to-class="opacity-100 transform translate-y-0"
-      leave-active-class="transition-all duration-200 ease-in"
-      leave-from-class="opacity-100 transform translate-y-0"
-      leave-to-class="opacity-0 transform -translate-y-4"
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="opacity-0 -translate-y-2"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 -translate-y-2"
     >
       <div 
-        v-if="mobileMenuOpen" 
-        class="lg:hidden absolute top-full left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-b border-purple-500/30 shadow-2xl"
+        v-if="menuOpen" 
+        class="lg:hidden absolute left-0 right-0 top-full bg-[#001D3D] border-b border-white/10 shadow-xl"
       >
-        <nav class="max-w-7xl mx-auto px-6 py-6">
-          <div class="flex flex-col gap-4">
+        <div class="container mx-auto px-4 py-4">
+          <div class="space-y-1">
             <NuxtLink 
-              v-for="item in navItems" 
+              v-for="item in [...navItems, ...quickLinks]" 
               :key="item.name"
               :to="item.path"
-              @click="mobileMenuOpen = false"
-              class="group relative px-4 py-3 font-semibold text-lg text-gray-300 hover:text-purple-400 transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-blue-500/10"
+              @click="menuOpen = false"
+              class="flex items-center gap-3 px-3 py-2.5 text-gray-200 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
             >
-              <div class="flex items-center justify-between">
-                {{ item.name }}
-                <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                </svg>
-              </div>
+              <UIcon v-if="item.icon" :name="item.icon" class="w-4 h-4 text-gray-400" />
+              <span class="font-medium">{{ item.name }}</span>
             </NuxtLink>
           </div>
           
-          <!-- Mobile Social Links -->
-          <div class="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-purple-500/30">
+          <div class="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
             <a 
               href="https://discord.gg/HF7WAkJ4" 
-              target="_blank" 
-              rel="noopener" 
-              aria-label="Discord"
-              class="p-3 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
+              target="_blank"
+              class="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#5865F2] text-white text-sm font-bold rounded-lg"
             >
-              <UIcon name="i-simple-icons-discord" class="w-5 h-5" />
+              <UIcon name="i-simple-icons-discord" class="w-4 h-4" />
+              Discord
             </a>
-            
-            <a 
-              href="https://x.com/BTGOnline" 
-              target="_blank" 
-              rel="noopener" 
-              aria-label="Twitter"
-              class="p-3 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
+            <NuxtLink 
+              to="/shop"
+              @click="menuOpen = false"
+              class="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#E30613] text-white text-sm font-bold rounded-lg"
             >
-              <UIcon name="i-simple-icons-twitter" class="w-5 h-5" />
-            </a>
+              <UIcon name="i-heroicons-shopping-bag" class="w-4 h-4" />
+              Store
+            </NuxtLink>
           </div>
-        </nav>
+        </div>
       </div>
     </Transition>
   </header>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const isScrolled = ref(false);
-const mobileMenuOpen = ref(false);
+const menuOpen = ref(false);
+const isLive = ref(true);
 
-const navItems = [
+const teams = [
+  { id: 'elite', name: 'BTG Elite', abbr: 'ELT', color: '#6D28D9' },
+  { id: 'rise', name: 'BTG Rise', abbr: 'RSE', color: '#0EA5E9' },
+  { id: 'icons', name: 'BTG Icons', abbr: 'ICN', color: '#22C55E' },
+];
+
+const socials = [
+  { name: 'Discord', icon: 'i-simple-icons-discord', url: 'https://discord.gg/HF7WAkJ4' },
+  { name: 'Twitter', icon: 'i-simple-icons-twitter', url: 'https://x.com/BTGOnline' },
+  { name: 'Twitch', icon: 'i-simple-icons-twitch', url: 'https://twitch.tv/acekydtv' },
+  { name: 'YouTube', icon: 'i-simple-icons-youtube', url: 'https://youtube.com/@btgofficial' },
+];
+
+interface NavItem {
+  name: string;
+  path: string;
+  icon?: string;
+}
+
+const navItems: NavItem[] = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
   { name: 'Teams', path: '/teams' },
   { name: 'Streams', path: '/streams' },
   { name: 'Tournaments', path: '/tournament' },
-  { name: 'Shop', path: '/shop' },
+  { name: 'News', path: '/news' },
 ];
+
+const quickLinks: NavItem[] = [
+  { name: 'Schedule', path: '/streams', icon: 'i-heroicons-calendar' },
+  { name: 'Standings', path: '/tournament', icon: 'i-heroicons-chart-bar' },
+  { name: 'Shop', path: '/shop', icon: 'i-heroicons-shopping-bag' },
+  { name: 'Contact', path: '/contact', icon: 'i-heroicons-envelope' },
+];
+
+const isActive = (path: string) => {
+  if (path === '/') return route.path === '/';
+  return route.path.startsWith(path);
+};
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 20;
 };
 
-// Close mobile menu when clicking outside
-const handleClickOutside = (event: MouseEvent) => {
-  const header = document.querySelector('header');
-  if (header && !header.contains(event.target as Node)) {
-    mobileMenuOpen.value = false;
-  }
-};
-
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
-  document.addEventListener('click', handleClickOutside);
-  handleScroll(); // Check initial scroll position
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
-  document.removeEventListener('click', handleClickOutside);
-});
-
-// Close mobile menu on route change
-watch(() => mobileMenuOpen.value, (newVal) => {
-  if (newVal) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
 });
 </script>
 
 <style scoped>
-/* Ensure smooth transitions */
-* {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
 }
-
-/* Add subtle animation to navigation items */
-nav a {
-  position: relative;
-  overflow: hidden;
-}
-
-/* Mobile menu backdrop blur support */
-@supports (backdrop-filter: blur(12px)) {
-  .backdrop-blur-xl {
-    backdrop-filter: blur(12px);
-  }
-  
-  .backdrop-blur-lg {
-    backdrop-filter: blur(8px);
-  }
+.overflow-x-auto {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
