@@ -19,7 +19,7 @@
         :class="[
           'flex items-center justify-center w-8 h-8 rounded-lg text-sm font-medium transition-colors',
           page <= 1
-            ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
+            ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed bg-gray-50 dark:bg-gray-800'
             : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
         ]"
         aria-label="Previous page"
@@ -32,7 +32,7 @@
       <template v-for="(item, idx) in pageItems" :key="idx">
         <span
           v-if="item === '...'"
-          class="flex items-center justify-center w-8 h-8 text-sm text-gray-400 dark:text-gray-500"
+          class="flex items-center justify-center w-8 h-8 text-sm text-gray-400 dark:text-gray-500 select-none"
         >
           &hellip;
         </span>
@@ -41,7 +41,7 @@
           :class="[
             'flex items-center justify-center w-8 h-8 rounded-lg text-sm font-medium transition-colors',
             item === page
-              ? 'bg-[#001D3D] text-white'
+              ? 'bg-[#001D3D] text-white ring-2 ring-[#E30613]/30'
               : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           ]"
           :aria-current="item === page ? 'page' : undefined"
@@ -57,7 +57,7 @@
         :class="[
           'flex items-center justify-center w-8 h-8 rounded-lg text-sm font-medium transition-colors',
           page >= totalPages
-            ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
+            ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed bg-gray-50 dark:bg-gray-800'
             : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
         ]"
         aria-label="Next page"

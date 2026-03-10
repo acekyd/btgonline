@@ -8,68 +8,62 @@
       <h1 class="text-xl font-black text-[#001D3D] dark:text-white">Merge Teams</h1>
     </div>
 
-    <!-- Stepper -->
-    <div class="flex items-center gap-0 mb-8">
-      <div v-for="(step, idx) in steps" :key="step" class="flex items-center">
+    <!-- Enhanced Stepper -->
+    <div class="flex items-center mb-8">
+      <template v-for="(stepLabel, i) in ['Select Teams', 'Preview', 'Complete']" :key="i">
         <div class="flex items-center gap-2">
-          <div
-            :class="[
-              'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors',
-              currentStep > idx + 1
-                ? 'bg-green-500 text-white'
-                : currentStep === idx + 1
-                  ? 'bg-[#001D3D] text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500',
-            ]"
-          >
-            <Icon v-if="currentStep > idx + 1" name="lucide:check" class="w-4 h-4" />
-            <span v-else>{{ idx + 1 }}</span>
+          <div :class="[
+            'w-8 h-8 rounded-full flex items-center justify-center text-sm font-black transition-colors',
+            currentStep > i + 1 ? 'bg-green-500 text-white' :
+            currentStep === i + 1 ? 'bg-[#E30613] text-white' :
+            'bg-gray-200 dark:bg-gray-700 text-gray-400'
+          ]">
+            <Icon v-if="currentStep > i + 1" name="lucide:check" class="w-4 h-4" />
+            <span v-else>{{ i + 1 }}</span>
           </div>
-          <span
-            :class="[
-              'text-sm font-semibold hidden sm:block',
-              currentStep === idx + 1 ? 'text-[#001D3D] dark:text-white' : 'text-gray-400 dark:text-gray-500',
-            ]"
-          >{{ step }}</span>
+          <span :class="[
+            'text-sm font-semibold hidden sm:block',
+            currentStep === i + 1 ? 'text-gray-900 dark:text-white' : 'text-gray-400'
+          ]">{{ stepLabel }}</span>
         </div>
-        <div v-if="idx < steps.length - 1" class="h-px w-8 sm:w-12 bg-gray-200 dark:bg-gray-700 mx-2" />
-      </div>
+        <div v-if="i < 2" :class="['flex-1 h-1 mx-3 rounded-full transition-colors', currentStep > i + 1 ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700']" />
+      </template>
     </div>
 
     <!-- STEP 1: Select Teams -->
     <template v-if="currentStep === 1">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- Source -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
-          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-            Source Team
-            <span class="text-red-500 normal-case font-normal ml-1">(will be deleted)</span>
-          </h2>
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-5">
+          <div class="mb-3">
+            <h2 class="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Source Team</h2>
+            <p class="text-xs text-red-500 font-medium mt-0.5">(will be permanently deleted)</p>
+          </div>
           <input
             v-model="sourceSearch"
             type="text"
             placeholder="Search by name..."
-            class="input-field mb-3"
+            class="w-full px-4 py-2.5 text-sm rounded-lg border border-red-200 dark:border-red-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-red-300 focus:border-red-400 focus:outline-none transition-colors mb-3"
             @input="debouncedSearch('source')"
           />
-          <div v-if="sourceResults.length > 0 && !sourceTeam" class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden mb-3">
+          <div v-if="sourceResults.length > 0 && !sourceTeam" class="border border-red-200 dark:border-red-700 rounded-lg overflow-hidden mb-3 bg-white dark:bg-gray-900">
             <button
               v-for="t in sourceResults"
               :key="t.id"
               type="button"
-              class="w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
+              class="w-full text-left px-3 py-2.5 text-sm hover:bg-red-50 dark:hover:bg-red-900/20 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
               @click="selectTeam('source', t)"
             >
               <span class="font-semibold text-gray-800 dark:text-gray-200">{{ t.canonical_name }}</span>
             </button>
           </div>
-          <div v-if="sourceTeam" class="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <div v-if="sourceTeam" class="flex items-center justify-between p-3 bg-white dark:bg-gray-900 border border-red-300 dark:border-red-700 rounded-lg">
             <div class="flex items-center gap-2">
               <img v-if="sourceTeam.logo_url" :src="sourceTeam.logo_url" class="w-8 h-8 object-contain rounded" alt="" />
               <Icon v-else name="lucide:shield" class="w-6 h-6 text-gray-400" />
               <p class="font-bold text-gray-900 dark:text-white text-sm">{{ sourceTeam.canonical_name }}</p>
             </div>
-            <button type="button" @click="clearTeam('source')" class="text-gray-400 hover:text-red-500 transition-colors">
+            <button type="button" @click="clearTeam('source')" class="text-gray-400 hover:text-red-500 transition-colors ml-3">
               <Icon name="lucide:x" class="w-4 h-4" />
             </button>
           </div>
@@ -77,36 +71,36 @@
         </div>
 
         <!-- Target -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
-          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-            Target Team
-            <span class="text-green-600 normal-case font-normal ml-1">(will be kept)</span>
-          </h2>
+        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-5">
+          <div class="mb-3">
+            <h2 class="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Target Team</h2>
+            <p class="text-xs text-green-600 font-medium mt-0.5">(record to keep)</p>
+          </div>
           <input
             v-model="targetSearch"
             type="text"
             placeholder="Search by name..."
-            class="input-field mb-3"
+            class="w-full px-4 py-2.5 text-sm rounded-lg border border-green-200 dark:border-green-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-green-300 focus:border-green-400 focus:outline-none transition-colors mb-3"
             @input="debouncedSearch('target')"
           />
-          <div v-if="targetResults.length > 0 && !targetTeam" class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden mb-3">
+          <div v-if="targetResults.length > 0 && !targetTeam" class="border border-green-200 dark:border-green-700 rounded-lg overflow-hidden mb-3 bg-white dark:bg-gray-900">
             <button
               v-for="t in targetResults"
               :key="t.id"
               type="button"
-              class="w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
+              class="w-full text-left px-3 py-2.5 text-sm hover:bg-green-50 dark:hover:bg-green-900/20 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
               @click="selectTeam('target', t)"
             >
               <span class="font-semibold text-gray-800 dark:text-gray-200">{{ t.canonical_name }}</span>
             </button>
           </div>
-          <div v-if="targetTeam" class="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+          <div v-if="targetTeam" class="flex items-center justify-between p-3 bg-white dark:bg-gray-900 border border-green-300 dark:border-green-700 rounded-lg">
             <div class="flex items-center gap-2">
               <img v-if="targetTeam.logo_url" :src="targetTeam.logo_url" class="w-8 h-8 object-contain rounded" alt="" />
               <Icon v-else name="lucide:shield" class="w-6 h-6 text-gray-400" />
               <p class="font-bold text-gray-900 dark:text-white text-sm">{{ targetTeam.canonical_name }}</p>
             </div>
-            <button type="button" @click="clearTeam('target')" class="text-gray-400 hover:text-red-500 transition-colors">
+            <button type="button" @click="clearTeam('target')" class="text-gray-400 hover:text-red-500 transition-colors ml-3">
               <Icon name="lucide:x" class="w-4 h-4" />
             </button>
           </div>
@@ -114,20 +108,34 @@
         </div>
       </div>
 
-      <div v-if="step1Error" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{{ step1Error }}</div>
+      <div v-if="step1Error" class="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-4">
+        <Icon name="lucide:alert-circle" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ step1Error }}</span>
+      </div>
 
       <AppButton
         variant="primary"
+        class="w-full"
         :disabled="!sourceTeam || !targetTeam"
         :loading="previewLoading"
         @click="loadPreview"
       >
+        <Icon name="lucide:eye" class="w-4 h-4" />
         Load Preview
       </AppButton>
     </template>
 
     <!-- STEP 2: Preview -->
     <template v-if="currentStep === 2 && previewData">
+      <!-- Amber warning banner -->
+      <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 mb-6">
+        <Icon name="lucide:alert-triangle" class="w-5 h-5 flex-shrink-0 mt-0.5" />
+        <div>
+          <p class="text-sm font-bold">Warning: This action cannot be undone.</p>
+          <p class="text-sm mt-0.5">You are about to permanently delete <strong>{{ sourceTeam?.canonical_name }}</strong> and merge all their data into <strong>{{ targetTeam?.canonical_name }}</strong>.</p>
+        </div>
+      </div>
+
       <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-6 mb-6">
         <!-- Team comparison header -->
         <div class="flex flex-col sm:flex-row gap-4 mb-6 pb-6 border-b border-gray-100 dark:border-gray-700">
@@ -157,16 +165,28 @@
             <span class="ml-1 text-xs font-normal text-gray-400">({{ previewData.statsToMove?.length ?? 0 }} rows)</span>
           </h3>
           <div v-if="previewData.statsToMove?.length > 0" class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
-            <div
-              v-for="(stat, i) in previewData.statsToMove"
-              :key="i"
-              class="flex items-center justify-between px-4 py-2.5 text-sm border-b border-gray-100 dark:border-gray-700 last:border-0"
-            >
-              <span class="text-gray-700 dark:text-gray-300 font-medium">{{ stat.season_name ?? stat.season_id }}</span>
-              <span class="text-gray-400 text-xs">
-                P: {{ stat.played ?? 0 }} · W: {{ stat.wins ?? 0 }} · Pts: {{ stat.points ?? 0 }}
-              </span>
-            </div>
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50 dark:bg-gray-800/80">
+                <tr>
+                  <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Season</th>
+                  <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Played</th>
+                  <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Wins</th>
+                  <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(stat, i) in previewData.statsToMove"
+                  :key="i"
+                  class="border-t border-gray-100 dark:border-gray-700"
+                >
+                  <td class="px-4 py-2.5 text-gray-700 dark:text-gray-300 font-medium">{{ stat.season_name ?? stat.season_id }}</td>
+                  <td class="px-4 py-2.5 text-gray-500">{{ stat.played ?? 0 }}</td>
+                  <td class="px-4 py-2.5 text-gray-500">{{ stat.wins ?? 0 }}</td>
+                  <td class="px-4 py-2.5 text-gray-500">{{ stat.points ?? 0 }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <p v-else class="text-sm text-gray-400 italic">No team stats to move.</p>
         </div>
@@ -215,20 +235,23 @@
             <span
               v-for="a in previewData.aliasesSkipped"
               :key="a"
-              class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs font-semibold rounded-full line-through"
-            >{{ a }}</span>
+              class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 text-xs font-semibold rounded-full line-through"
+            >{{ a }} <span class="no-underline not-italic text-gray-400 font-normal">(duplicate)</span></span>
           </div>
         </div>
       </div>
 
-      <div v-if="mergeError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{{ mergeError }}</div>
+      <div v-if="mergeError" class="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-4">
+        <Icon name="lucide:alert-circle" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ mergeError }}</span>
+      </div>
 
       <div class="flex items-center gap-3">
-        <AppButton variant="primary" :loading="mergeLoading" @click="confirmMerge">
+        <AppButton variant="danger" :loading="mergeLoading" @click="confirmMerge">
           <Icon name="lucide:git-merge" class="w-4 h-4" />
-          Confirm Merge
+          Confirm Merge — Delete {{ sourceTeam?.canonical_name }}
         </AppButton>
-        <AppButton variant="outline" @click="resetMerge">Cancel</AppButton>
+        <AppButton variant="ghost" @click="resetMerge">Cancel</AppButton>
       </div>
     </template>
 
@@ -247,15 +270,15 @@
         <div class="flex items-center justify-center gap-6 mb-8 text-sm">
           <div class="text-center">
             <p class="text-2xl font-black text-[#001D3D] dark:text-white">{{ mergeResult.statsMoved ?? 0 }}</p>
-            <p class="text-gray-400">Stats moved</p>
+            <p class="text-gray-400 text-xs mt-0.5">Stat rows moved</p>
           </div>
           <div class="text-center">
             <p class="text-2xl font-black text-[#001D3D] dark:text-white">{{ mergeResult.aliasesMoved ?? 0 }}</p>
-            <p class="text-gray-400">Aliases moved</p>
+            <p class="text-gray-400 text-xs mt-0.5">Aliases moved</p>
           </div>
           <div class="text-center">
             <p class="text-2xl font-black text-[#001D3D] dark:text-white">{{ mergeResult.aliasesSkipped ?? 0 }}</p>
-            <p class="text-gray-400">Aliases skipped</p>
+            <p class="text-gray-400 text-xs mt-0.5">Aliases skipped</p>
           </div>
         </div>
         <div class="flex items-center justify-center gap-3">

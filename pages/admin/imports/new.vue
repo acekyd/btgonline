@@ -8,32 +8,26 @@
       <h1 class="text-xl font-black text-[#001D3D] dark:text-white">New Import</h1>
     </div>
 
-    <!-- Stepper -->
-    <div class="flex items-center gap-0 mb-8">
-      <div v-for="(step, idx) in steps" :key="step" class="flex items-center">
+    <!-- Enhanced Stepper -->
+    <div class="flex items-center mb-8">
+      <template v-for="(stepLabel, i) in ['Upload CSV', 'Preview Data', 'Complete']" :key="i">
         <div class="flex items-center gap-2">
-          <div
-            :class="[
-              'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors',
-              currentStep > idx + 1
-                ? 'bg-green-500 text-white'
-                : currentStep === idx + 1
-                  ? 'bg-[#001D3D] text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500',
-            ]"
-          >
-            <Icon v-if="currentStep > idx + 1" name="lucide:check" class="w-4 h-4" />
-            <span v-else>{{ idx + 1 }}</span>
+          <div :class="[
+            'w-8 h-8 rounded-full flex items-center justify-center text-sm font-black transition-colors',
+            currentStep > i + 1 ? 'bg-green-500 text-white' :
+            currentStep === i + 1 ? 'bg-[#E30613] text-white' :
+            'bg-gray-200 dark:bg-gray-700 text-gray-400'
+          ]">
+            <Icon v-if="currentStep > i + 1" name="lucide:check" class="w-4 h-4" />
+            <span v-else>{{ i + 1 }}</span>
           </div>
-          <span
-            :class="[
-              'text-sm font-semibold hidden sm:block',
-              currentStep === idx + 1 ? 'text-[#001D3D] dark:text-white' : 'text-gray-400 dark:text-gray-500',
-            ]"
-          >{{ step }}</span>
+          <span :class="[
+            'text-sm font-semibold hidden sm:block',
+            currentStep === i + 1 ? 'text-gray-900 dark:text-white' : 'text-gray-400'
+          ]">{{ stepLabel }}</span>
         </div>
-        <div v-if="idx < steps.length - 1" class="h-px w-8 sm:w-16 bg-gray-200 dark:bg-gray-700 mx-2" />
-      </div>
+        <div v-if="i < 2" :class="['flex-1 h-1 mx-3 rounded-full transition-colors', currentStep > i + 1 ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700']" />
+      </template>
     </div>
 
     <!-- ═══════════════════════════════════════════════
@@ -41,91 +35,120 @@
     ════════════════════════════════════════════════ -->
     <template v-if="currentStep === 1">
       <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-6">
-        <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-5">Upload CSV</h2>
+        <div class="px-0 pb-4 mb-5 border-b border-gray-100 dark:border-gray-700">
+          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Upload CSV</h2>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-          <!-- Season -->
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+        <!-- Season -->
+        <div class="mb-5">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
               Season <span class="text-[#E30613]">*</span>
             </label>
             <select
               v-model="selectedSeasonId"
-              class="input-field"
-              :class="{ 'border-red-400': step1Errors.season }"
+              :class="[
+                'w-full px-4 py-2.5 text-sm rounded-lg border transition-colors bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none',
+                step1Errors.season ? 'border-red-400' : 'border-gray-200 dark:border-gray-600'
+              ]"
             >
-              <option value="">Select season...</option>
+              <option value="">— Select a season —</option>
               <option v-for="s in seasons" :key="s.id" :value="s.id">
                 {{ s.name }} ({{ s.tournament_name }})
               </option>
             </select>
-            <p v-if="step1Errors.season" class="mt-1 text-xs text-red-500">{{ step1Errors.season }}</p>
-          </div>
-
-          <!-- Import Type -->
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-              Import Type <span class="text-[#E30613]">*</span>
-            </label>
-            <select
-              v-model="selectedImportType"
-              class="input-field"
-              :class="{ 'border-red-400': step1Errors.importType }"
-            >
-              <option value="">Select type...</option>
-              <option value="team_stats">Team Stats</option>
-              <option value="player_stats">Player Stats</option>
-            </select>
-            <p v-if="step1Errors.importType" class="mt-1 text-xs text-red-500">{{ step1Errors.importType }}</p>
+            <p v-if="step1Errors.season" class="text-xs text-red-500 flex items-center gap-1">
+              <Icon name="lucide:alert-circle" class="w-3.5 h-3.5 flex-shrink-0" />
+              {{ step1Errors.season }}
+            </p>
           </div>
         </div>
 
-        <!-- File Input -->
+        <!-- Import Type — Card selector -->
+        <div class="mb-5">
+          <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 block mb-2">
+            Import Type <span class="text-[#E30613]">*</span>
+          </label>
+          <div class="grid grid-cols-2 gap-4">
+            <button
+              v-for="type in ['team_stats', 'player_stats']"
+              :key="type"
+              type="button"
+              @click="selectedImportType = type"
+              :class="[
+                'p-4 rounded-xl border-2 text-left transition-all',
+                selectedImportType === type
+                  ? 'border-[#E30613] bg-[#E30613]/5 dark:bg-[#E30613]/10'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+              ]"
+            >
+              <Icon
+                :name="type === 'team_stats' ? 'lucide:shield' : 'lucide:user'"
+                class="w-5 h-5 mb-2"
+                :class="selectedImportType === type ? 'text-[#E30613]' : 'text-gray-400'"
+              />
+              <p class="font-semibold text-sm text-gray-800 dark:text-gray-200">{{ type === 'team_stats' ? 'Team Stats' : 'Player Stats' }}</p>
+              <p class="text-xs text-gray-400 mt-0.5">{{ type === 'team_stats' ? 'Standings, goals, points' : 'Goals, assists, appearances' }}</p>
+            </button>
+          </div>
+          <p v-if="step1Errors.importType" class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+            <Icon name="lucide:alert-circle" class="w-3.5 h-3.5 flex-shrink-0" />
+            {{ step1Errors.importType }}
+          </p>
+        </div>
+
+        <!-- File Drop Zone -->
         <div class="mb-6">
-          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+          <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 block mb-2">
             CSV File <span class="text-[#E30613]">*</span>
           </label>
           <div
-            class="border-2 border-dashed rounded-xl p-6 text-center transition-colors"
+            class="relative overflow-hidden border-2 border-dashed rounded-xl p-8 text-center transition-colors"
             :class="[
               csvFile
-                ? 'border-green-300 bg-green-50 dark:bg-green-900/10 dark:border-green-700'
-                : 'border-gray-200 dark:border-gray-600 hover:border-[#E30613]/50 hover:bg-gray-50 dark:hover:bg-gray-700/30',
-              step1Errors.file ? 'border-red-300 bg-red-50 dark:bg-red-900/10' : ''
+                ? 'border-green-400 bg-green-50 dark:bg-green-900/10'
+                : step1Errors.file
+                  ? 'border-red-300 bg-red-50 dark:bg-red-900/10'
+                  : 'border-gray-300 dark:border-gray-600 hover:border-[#E30613]/50'
             ]"
           >
             <input
               ref="csvInput"
               type="file"
               accept=".csv"
-              class="hidden"
               @change="handleFileSelect"
+              class="absolute inset-0 opacity-0 cursor-pointer"
             />
-            <div v-if="csvFile" class="flex items-center justify-center gap-3">
-              <Icon name="lucide:file-text" class="w-8 h-8 text-green-500" />
-              <div class="text-left">
-                <p class="font-semibold text-gray-800 dark:text-gray-200 text-sm">{{ csvFile.name }}</p>
-                <p class="text-xs text-gray-400">{{ formatFileSize(csvFile.size) }}</p>
-              </div>
-              <button type="button" @click="clearFile" class="ml-2 text-gray-400 hover:text-red-500 transition-colors">
-                <Icon name="lucide:x" class="w-4 h-4" />
-              </button>
-            </div>
-            <div v-else>
-              <Icon name="lucide:upload-cloud" class="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
-              <p class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Drop your CSV here or click to browse</p>
-              <p class="text-xs text-gray-400">Only .csv files are accepted</p>
-              <AppButton variant="outline" size="sm" type="button" class="mt-3" @click="csvInput?.click()">
-                Browse File
-              </AppButton>
-            </div>
+            <Icon
+              :name="csvFile ? 'lucide:check-circle-2' : 'lucide:upload-cloud'"
+              :class="['w-10 h-10 mx-auto mb-3', csvFile ? 'text-green-500' : 'text-gray-400']"
+            />
+            <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              {{ csvFile ? csvFile.name : 'Drop CSV file here or click to browse' }}
+            </p>
+            <p v-if="!csvFile" class="text-xs text-gray-400 mt-1">Accepts .csv files only</p>
+            <p v-else class="text-xs text-green-500 mt-1">File ready to upload · {{ formatFileSize(csvFile.size) }}</p>
+            <button
+              v-if="csvFile"
+              type="button"
+              @click.stop="clearFile"
+              class="mt-3 text-xs text-gray-400 hover:text-red-500 transition-colors relative z-10"
+            >
+              Remove file
+            </button>
           </div>
-          <p v-if="step1Errors.file" class="mt-1 text-xs text-red-500">{{ step1Errors.file }}</p>
+          <p v-if="step1Errors.file" class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+            <Icon name="lucide:alert-circle" class="w-3.5 h-3.5 flex-shrink-0" />
+            {{ step1Errors.file }}
+          </p>
         </div>
 
-        <div v-if="uploadError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{{ uploadError }}</div>
+        <div v-if="uploadError" class="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-4">
+          <Icon name="lucide:alert-circle" class="w-5 h-5 flex-shrink-0" />
+          <span class="text-sm font-medium">{{ uploadError }}</span>
+        </div>
 
-        <AppButton variant="primary" :loading="uploading" @click="uploadAndPreview">
+        <AppButton variant="primary" class="w-full" :loading="uploading" @click="uploadAndPreview">
           <Icon name="lucide:upload" class="w-4 h-4" />
           Upload &amp; Preview
         </AppButton>
@@ -136,13 +159,13 @@
          STEP 2 — Preview
     ════════════════════════════════════════════════ -->
     <template v-if="currentStep === 2 && previewResult">
-      <!-- Summary bar -->
+      <!-- Summary stat cards -->
       <div class="grid grid-cols-3 gap-4 mb-6">
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-4 text-center">
-          <p class="text-2xl font-black text-[#001D3D] dark:text-white">{{ previewResult.totalRows }}</p>
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm p-4 text-center">
+          <p class="text-2xl font-black text-gray-700 dark:text-gray-200">{{ previewResult.totalRows }}</p>
           <p class="text-xs text-gray-400 mt-0.5 font-semibold uppercase tracking-wide">Total Rows</p>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-green-100 dark:border-green-800 shadow-sm p-4 text-center">
+        <div class="bg-green-50 dark:bg-green-900/10 rounded-xl border border-green-200 dark:border-green-800 shadow-sm p-4 text-center">
           <p class="text-2xl font-black text-green-600">{{ previewResult.validRows }}</p>
           <p class="text-xs text-gray-400 mt-0.5 font-semibold uppercase tracking-wide">Valid Rows</p>
         </div>
@@ -150,26 +173,42 @@
           :class="[
             'rounded-xl border shadow-sm p-4 text-center',
             previewResult.errorRows > 0
-              ? 'bg-orange-50 dark:bg-orange-900/10 border-orange-200 dark:border-orange-800'
-              : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700',
+              ? 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800'
+              : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700',
           ]"
         >
-          <p :class="['text-2xl font-black', previewResult.errorRows > 0 ? 'text-orange-600' : 'text-gray-400']">
+          <p :class="['text-2xl font-black', previewResult.errorRows > 0 ? 'text-red-600' : 'text-gray-300']">
             {{ previewResult.errorRows }}
           </p>
           <p class="text-xs text-gray-400 mt-0.5 font-semibold uppercase tracking-wide">Error Rows</p>
         </div>
       </div>
 
-      <!-- Error rows table -->
-      <div v-if="previewResult.errorRows > 0" class="bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-700 rounded-xl p-5 mb-6">
-        <div class="flex items-center gap-2 mb-3">
-          <Icon name="lucide:alert-triangle" class="w-4 h-4 text-orange-500" />
-          <h3 class="text-sm font-bold text-orange-700 dark:text-orange-400">
-            {{ previewResult.errorRows }} row{{ previewResult.errorRows !== 1 ? 's' : '' }} have errors and will be skipped
-          </h3>
+      <!-- Zero valid rows warning -->
+      <div v-if="previewResult.validRows === 0" class="flex items-start gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-6">
+        <Icon name="lucide:x-circle" class="w-5 h-5 flex-shrink-0 mt-0.5" />
+        <div>
+          <p class="text-sm font-bold">No valid rows to import.</p>
+          <p class="text-sm mt-0.5">Please fix the errors in your CSV and try uploading again.</p>
         </div>
-        <div class="overflow-x-auto rounded-lg border border-orange-200 dark:border-orange-700">
+      </div>
+
+      <!-- Error rows section (collapsible) -->
+      <div v-if="previewResult.errorRows > 0" class="bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-700 rounded-xl p-5 mb-6">
+        <button
+          type="button"
+          class="w-full flex items-center justify-between"
+          @click="showErrors = !showErrors"
+        >
+          <div class="flex items-center gap-2">
+            <Icon name="lucide:alert-triangle" class="w-4 h-4 text-orange-500" />
+            <h3 class="text-sm font-bold text-orange-700 dark:text-orange-400">
+              {{ previewResult.errorRows }} row{{ previewResult.errorRows !== 1 ? 's' : '' }} have errors and will be skipped
+            </h3>
+          </div>
+          <Icon :name="showErrors ? 'lucide:chevron-up' : 'lucide:chevron-down'" class="w-4 h-4 text-orange-500" />
+        </button>
+        <div v-if="showErrors" class="mt-3 overflow-x-auto rounded-lg border border-orange-200 dark:border-orange-700">
           <table class="w-full text-xs">
             <thead class="bg-orange-100 dark:bg-orange-900/30">
               <tr>
@@ -203,11 +242,11 @@
 
       <!-- Valid rows preview -->
       <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
-        <div class="px-5 py-3 border-b border-gray-100 dark:border-gray-700">
+        <div class="px-5 py-3 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <h3 class="text-sm font-bold text-gray-700 dark:text-gray-300">
             Preview — valid rows
-            <span class="ml-1 text-xs font-normal text-gray-400">(showing up to 100)</span>
           </h3>
+          <span class="text-xs text-gray-400">Showing first 50 rows. All valid rows will be imported.</span>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-sm text-left">
@@ -225,7 +264,7 @@
                 <td :colspan="previewColumns.length" class="px-4 py-8 text-center text-gray-400 text-sm">No valid rows to preview.</td>
               </tr>
               <tr
-                v-for="(row, i) in previewResult.validRowsData?.slice(0, 100)"
+                v-for="(row, i) in previewResult.validRowsData?.slice(0, 50)"
                 :key="i"
                 class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
               >
@@ -240,7 +279,10 @@
         </div>
       </div>
 
-      <div v-if="confirmError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{{ confirmError }}</div>
+      <div v-if="confirmError" class="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-4">
+        <Icon name="lucide:alert-circle" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ confirmError }}</span>
+      </div>
 
       <div class="flex items-center gap-3">
         <AppButton
@@ -250,7 +292,7 @@
           @click="confirmImport"
         >
           <Icon name="lucide:check" class="w-4 h-4" />
-          Confirm Import
+          Import {{ previewResult.validRows }} Row{{ previewResult.validRows !== 1 ? 's' : '' }}
         </AppButton>
         <AppButton variant="outline" @click="startOver">
           Start Over
@@ -270,7 +312,7 @@
             importResult.status === 'complete' || importResult.status === 'completed'
               ? 'bg-green-100 dark:bg-green-900/30'
               : importResult.status === 'partial'
-                ? 'bg-orange-100 dark:bg-orange-900/30'
+                ? 'bg-amber-100 dark:bg-amber-900/30'
                 : 'bg-red-100 dark:bg-red-900/30',
           ]"
         >
@@ -287,7 +329,7 @@
               importResult.status === 'complete' || importResult.status === 'completed'
                 ? 'text-green-500'
                 : importResult.status === 'partial'
-                  ? 'text-orange-500'
+                  ? 'text-amber-500'
                   : 'text-red-500',
             ]"
           />
@@ -308,7 +350,7 @@
 
         <p
           v-if="importResult.status === 'partial'"
-          class="text-orange-600 dark:text-orange-400 text-sm mb-4"
+          class="text-amber-600 dark:text-amber-400 text-sm mb-4"
         >
           {{ importResult.rowsFailed }} row{{ importResult.rowsFailed !== 1 ? 's' : '' }} could not be imported.
         </p>
@@ -338,9 +380,15 @@
         </div>
 
         <div class="flex items-center justify-center gap-3">
-          <AppButton variant="primary" @click="startOver">New Import</AppButton>
+          <AppButton variant="outline" @click="startOver">
+            <Icon name="lucide:plus" class="w-4 h-4" />
+            New Import
+          </AppButton>
           <NuxtLink to="/admin/imports">
-            <AppButton variant="outline">View Imports</AppButton>
+            <AppButton variant="primary">
+              <Icon name="lucide:list" class="w-4 h-4" />
+              View All Imports
+            </AppButton>
           </NuxtLink>
         </div>
       </div>
@@ -372,7 +420,7 @@ interface ImportResult {
   rowsFailed: number
 }
 
-const steps = ['Upload', 'Preview', 'Complete']
+const steps = ['Upload CSV', 'Preview Data', 'Complete']
 const currentStep = ref(1)
 
 // Step 1
@@ -390,6 +438,7 @@ const previewResult = ref<PreviewResult | null>(null)
 const confirming = ref(false)
 const confirmError = ref('')
 const importId = ref<string | number | null>(null)
+const showErrors = ref(false)
 
 // Step 3
 const importResult = ref<ImportResult | null>(null)
@@ -499,6 +548,7 @@ const startOver = () => {
   importId.value = null
   uploadError.value = ''
   confirmError.value = ''
+  showErrors.value = false
   step1Errors.season = ''
   step1Errors.importType = ''
   step1Errors.file = ''
@@ -517,10 +567,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<style scoped>
-@reference "tailwindcss";
-.input-field {
-  @apply w-full px-3.5 py-2.5 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] transition-colors;
-}
-</style>

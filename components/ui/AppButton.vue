@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 interface Props {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   disabled?: boolean
   loading?: boolean
@@ -53,6 +53,7 @@ const variantClasses: Record<string, string> = {
   secondary: 'btn btn-navy',
   outline: 'btn btn-outline border-[#001D3D] text-[#001D3D] dark:border-white dark:text-white',
   ghost: 'inline-flex items-center justify-center gap-2 font-bold rounded-lg transition-all duration-200 bg-transparent text-[#001D3D] dark:text-white hover:bg-gray-100 dark:hover:bg-white/10',
+  danger: 'btn btn-danger',
 }
 
 const buttonClasses = computed(() => {

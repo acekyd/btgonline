@@ -19,7 +19,7 @@
     <!-- Sidebar -->
     <aside
       :class="[
-        'fixed top-0 left-0 h-full z-30 flex flex-col w-60 transition-transform duration-200',
+        'fixed top-0 left-0 h-full z-30 flex flex-col w-60 transition-transform duration-200 border-r border-white/10',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       ]"
       style="background-color: #001D3D;"
@@ -42,14 +42,14 @@
           :key="item.path"
           :to="item.path"
           :class="[
-            'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative',
+            'flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors relative',
             isActive(item.path)
-              ? 'text-white bg-white/10 border-l-2 border-[#E30613]'
-              : 'text-gray-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent'
+              ? 'text-white bg-white/10 border-l-4 border-[#E30613] rounded-r-lg'
+              : 'text-gray-300 hover:text-white hover:bg-white/5 border-l-4 border-transparent rounded-r-lg'
           ]"
           @click="sidebarOpen = false"
         >
-          <Icon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
+          <Icon :name="item.icon" class="w-5 h-5 flex-shrink-0" />
           <span>{{ item.label }}</span>
         </NuxtLink>
       </nav>
@@ -57,10 +57,10 @@
       <!-- Logout at bottom -->
       <div class="flex-shrink-0 px-3 py-4 border-t border-white/10">
         <button
+          class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-colors"
           @click="handleLogout"
-          class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
         >
-          <Icon name="lucide:log-out" class="w-4 h-4 flex-shrink-0" />
+          <Icon name="lucide:log-out" class="w-5 h-5 flex-shrink-0" />
           <span>Logout</span>
         </button>
       </div>
@@ -72,9 +72,9 @@
       <header class="sticky top-0 z-10 flex items-center gap-4 px-4 md:px-6 h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
         <!-- Hamburger (mobile) -->
         <button
-          @click="sidebarOpen = !sidebarOpen"
           class="lg:hidden p-1.5 rounded text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           aria-label="Toggle sidebar"
+          @click="sidebarOpen = !sidebarOpen"
         >
           <Icon name="lucide:menu" class="w-5 h-5" />
         </button>
@@ -86,8 +86,8 @@
 
         <!-- Logout button (top bar) -->
         <button
+          class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
           @click="handleLogout"
-          class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
         >
           <Icon name="lucide:log-out" class="w-4 h-4" />
           <span>Logout</span>

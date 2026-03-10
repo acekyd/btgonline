@@ -1,17 +1,21 @@
 <template>
   <div class="max-w-4xl">
     <!-- Header -->
-    <div class="flex items-center gap-3 mb-6">
+    <div class="flex items-center gap-3 mb-2">
       <NuxtLink to="/admin/creators" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
         <Icon name="lucide:arrow-left" class="w-5 h-5" />
       </NuxtLink>
       <div>
         <h1 class="text-xl font-black text-[#001D3D] dark:text-white">Edit Creator</h1>
         <p v-if="form.updated_at" class="text-xs text-gray-400 mt-0.5">
-          Last updated: {{ formatDate(form.updated_at) }}
+          Updated {{ formatDate(form.updated_at) }}
         </p>
       </div>
     </div>
+
+    <p class="text-xs text-gray-400 dark:text-gray-500 mb-6">
+      Fields marked <span class="text-[#E30613] font-bold">*</span> are required.
+    </p>
 
     <!-- 404 -->
     <div v-if="notFound" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-12 text-center">
@@ -27,118 +31,226 @@
 
     <template v-else>
       <!-- Success / Error banners -->
-      <div v-if="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">
-        {{ successMessage }}
+      <div v-if="successMessage" class="flex items-center gap-3 p-4 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 mb-6">
+        <Icon name="lucide:check-circle-2" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ successMessage }}</span>
       </div>
-      <div v-if="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
-        {{ errorMessage }}
+      <div v-if="errorMessage" class="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-6">
+        <Icon name="lucide:alert-circle" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ errorMessage }}</span>
       </div>
 
       <form @submit.prevent="handleSubmit">
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-6 mb-6">
-          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Basic Info</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+        <!-- Basic Info -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Basic Info</h2>
+          </div>
+          <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Display Name -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 Display Name <span class="text-[#E30613]">*</span>
               </label>
               <input
                 v-model="form.display_name"
                 type="text"
-                class="input-field"
-                :class="{ 'border-red-400': errors.display_name }"
                 placeholder="e.g. BravoKing"
+                :class="[
+                  'w-full px-4 py-2.5 text-sm rounded-lg border transition-colors bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400',
+                  errors.display_name
+                    ? 'border-red-400 bg-red-50 dark:bg-red-900/10 focus:ring-red-400 focus:border-red-400 focus:outline-none'
+                    : 'border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none'
+                ]"
               />
-              <p v-if="errors.display_name" class="mt-1 text-xs text-red-500">{{ errors.display_name }}</p>
+              <p v-if="errors.display_name" class="text-xs text-red-500 flex items-center gap-1">
+                <Icon name="lucide:alert-circle" class="w-3.5 h-3.5 flex-shrink-0" />
+                {{ errors.display_name }}
+              </p>
             </div>
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Sort Order</label>
-              <input v-model.number="form.sort_order" type="number" class="input-field" placeholder="0" />
+            <!-- Bio -->
+            <div class="flex flex-col gap-1.5 md:col-span-2">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Bio</label>
+              <textarea
+                v-model="form.bio"
+                rows="4"
+                placeholder="Short bio or description..."
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors resize-none"
+              />
+              <p class="text-xs text-gray-400">Brief description shown on the creators page.</p>
             </div>
+          </div>
+        </div>
 
-            <div class="md:col-span-2">
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Bio</label>
-              <textarea v-model="form.bio" rows="3" class="input-field resize-none" placeholder="Short bio or description..." />
-            </div>
-
-            <div class="flex items-center gap-6">
-              <label class="flex items-center gap-2.5 cursor-pointer">
-                <input v-model="form.is_featured" type="checkbox" class="w-4 h-4 accent-[#E30613]" />
-                <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Is Featured</span>
+        <!-- Settings -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Settings</h2>
+          </div>
+          <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Is Active Toggle -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Active</label>
+              <label class="flex items-center gap-3 cursor-pointer group">
+                <div class="relative">
+                  <input type="checkbox" v-model="form.is_active" class="sr-only peer" />
+                  <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 peer-checked:bg-[#E30613] rounded-full transition-colors peer-focus:ring-2 peer-focus:ring-[#E30613]/30"></div>
+                  <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4"></div>
+                </div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Creator is active</span>
               </label>
-              <label class="flex items-center gap-2.5 cursor-pointer">
-                <input v-model="form.is_active" type="checkbox" class="w-4 h-4 accent-[#E30613]" />
-                <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Is Active</span>
+            </div>
+
+            <!-- Is Featured Toggle -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Featured</label>
+              <label class="flex items-center gap-3 cursor-pointer group">
+                <div class="relative">
+                  <input type="checkbox" v-model="form.is_featured" class="sr-only peer" />
+                  <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 peer-checked:bg-[#E30613] rounded-full transition-colors peer-focus:ring-2 peer-focus:ring-[#E30613]/30"></div>
+                  <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4"></div>
+                </div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Show as featured creator</span>
               </label>
             </div>
-          </div>
-        </div>
 
-        <!-- Social / Stream URLs -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-6 mb-6">
-          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Links & URLs</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Primary Stream URL</label>
-              <input v-model="form.stream_url" type="text" class="input-field" placeholder="https://..." />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Twitch URL</label>
-              <input v-model="form.twitch_url" type="text" class="input-field" placeholder="https://twitch.tv/..." />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">YouTube URL</label>
-              <input v-model="form.youtube_url" type="text" class="input-field" placeholder="https://youtube.com/..." />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">TikTok URL</label>
-              <input v-model="form.tiktok_url" type="text" class="input-field" placeholder="https://tiktok.com/..." />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Instagram URL</label>
-              <input v-model="form.instagram_url" type="text" class="input-field" placeholder="https://instagram.com/..." />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Twitter URL</label>
-              <input v-model="form.twitter_url" type="text" class="input-field" placeholder="https://twitter.com/..." />
+            <!-- Sort Order -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Sort Order</label>
+              <input
+                v-model.number="form.sort_order"
+                type="number"
+                placeholder="0"
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+              <p class="text-xs text-gray-400">Lower numbers appear first. Default is 0.</p>
             </div>
           </div>
         </div>
 
-        <!-- Avatar Upload -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-6 mb-6">
-          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Avatar</h2>
-          <div class="flex items-start gap-5">
-            <div
-              v-if="form.avatar_url"
-              class="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-600 flex-shrink-0"
-            >
-              <img :src="form.avatar_url" alt="Avatar preview" class="w-full h-full object-cover" />
-            </div>
-            <div v-else class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
-              <Icon name="lucide:user" class="w-8 h-8 text-gray-400" />
-            </div>
-            <div>
-              <input ref="avatarInput" type="file" accept="image/*" class="hidden" @change="handleAvatarUpload" />
-              <AppButton variant="outline" size="sm" type="button" :loading="avatarUploading" @click="avatarInput?.click()">
-                <Icon name="lucide:upload" class="w-4 h-4" />
-                {{ form.avatar_url ? 'Change Avatar' : 'Upload Avatar' }}
-              </AppButton>
-              <p v-if="avatarError" class="mt-1 text-xs text-red-500">{{ avatarError }}</p>
-              <p class="mt-1 text-xs text-gray-400">JPG, PNG or WebP. Max 5MB.</p>
+        <!-- Avatar -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Avatar</h2>
+          </div>
+          <div class="p-6">
+            <div class="flex items-start gap-5">
+              <div class="flex-shrink-0">
+                <div
+                  v-if="form.avatar_url"
+                  class="w-24 h-24 rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-600"
+                >
+                  <img :src="form.avatar_url" alt="Avatar preview" class="w-full h-full object-cover" />
+                </div>
+                <div v-else class="w-24 h-24 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                  <Icon name="lucide:user" class="w-10 h-10 text-gray-400" />
+                </div>
+              </div>
+              <div class="flex flex-col gap-2">
+                <input ref="avatarInput" type="file" accept="image/*" class="hidden" @change="handleAvatarUpload" />
+                <AppButton variant="outline" size="sm" type="button" :loading="avatarUploading" @click="avatarInput?.click()">
+                  <Icon name="lucide:upload" class="w-4 h-4" />
+                  {{ form.avatar_url ? 'Change Avatar' : 'Upload Avatar' }}
+                </AppButton>
+                <p v-if="avatarError" class="text-xs text-red-500 flex items-center gap-1">
+                  <Icon name="lucide:alert-circle" class="w-3.5 h-3.5 flex-shrink-0" />
+                  {{ avatarError }}
+                </p>
+                <p class="text-xs text-gray-400">JPG, PNG or WebP. Max 5MB.</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Actions -->
-        <div class="flex items-center gap-3">
-          <AppButton type="submit" variant="primary" :loading="submitting">Save Changes</AppButton>
+        <!-- Links & Social -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Links & Social</h2>
+          </div>
+          <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Primary Stream URL</label>
+              <input
+                v-model="form.stream_url"
+                type="text"
+                placeholder="https://..."
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Twitch URL</label>
+              <input
+                v-model="form.twitch_url"
+                type="text"
+                placeholder="https://twitch.tv/..."
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">YouTube URL</label>
+              <input
+                v-model="form.youtube_url"
+                type="text"
+                placeholder="https://youtube.com/..."
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">TikTok URL</label>
+              <input
+                v-model="form.tiktok_url"
+                type="text"
+                placeholder="https://tiktok.com/..."
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Instagram URL</label>
+              <input
+                v-model="form.instagram_url"
+                type="text"
+                placeholder="https://instagram.com/..."
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Twitter URL</label>
+              <input
+                v-model="form.twitter_url"
+                type="text"
+                placeholder="https://twitter.com/..."
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Bar -->
+        <div class="flex items-center justify-between pt-4 mt-2 border-t border-gray-100 dark:border-gray-700">
           <NuxtLink to="/admin/creators">
-            <AppButton variant="outline" type="button">Cancel</AppButton>
+            <AppButton variant="ghost" size="md" type="button">Cancel</AppButton>
           </NuxtLink>
+          <AppButton type="submit" variant="primary" size="md" :loading="submitting">
+            <Icon name="lucide:save" class="w-4 h-4" />
+            Save Changes
+          </AppButton>
         </div>
       </form>
+
+      <!-- Danger Zone -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-red-200 dark:border-red-800 shadow-sm mb-6 mt-8">
+        <div class="px-6 py-4 border-b border-red-100 dark:border-red-800">
+          <h2 class="text-sm font-bold text-red-500 uppercase tracking-wider">Danger Zone</h2>
+        </div>
+        <div class="p-6 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">Delete this creator</p>
+            <p class="text-xs text-gray-400 mt-0.5">This action cannot be undone.</p>
+          </div>
+          <AppButton variant="danger" size="sm" type="button" @click="handleDelete">Delete Creator</AppButton>
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -219,6 +331,16 @@ const handleSubmit = async () => {
   }
 }
 
+const handleDelete = async () => {
+  if (!confirm('Are you sure you want to delete this creator? This action cannot be undone.')) return
+  try {
+    await $fetch(`/api/admin/creators/${id}`, { method: 'DELETE' })
+    await navigateTo('/admin/creators')
+  } catch (err: any) {
+    errorMessage.value = err?.data?.message ?? 'Failed to delete creator.'
+  }
+}
+
 onMounted(async () => {
   try {
     const res = await $fetch<{ data: Record<string, any> }>(`/api/admin/creators/${id}`)
@@ -244,10 +366,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<style scoped>
-@reference "tailwindcss";
-.input-field {
-  @apply w-full px-3.5 py-2.5 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] transition-colors;
-}
-</style>

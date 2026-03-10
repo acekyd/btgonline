@@ -2,7 +2,10 @@
   <div>
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-xl font-black text-[#001D3D] dark:text-white">Imports</h1>
+      <div>
+        <h1 class="text-xl font-black text-[#001D3D] dark:text-white">Imports</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Upload CSV files to import season statistics.</p>
+      </div>
       <NuxtLink to="/admin/imports/new">
         <AppButton variant="primary" size="sm">
           <Icon name="lucide:upload" class="w-4 h-4" />
@@ -11,7 +14,7 @@
       </NuxtLink>
     </div>
 
-    <!-- Table -->
+    <!-- Table Card -->
     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
       <AppTable
         :columns="columns"
@@ -22,16 +25,14 @@
         <template #cell-created_at="{ value }">
           {{ formatDate(value) }}
         </template>
+        <template #cell-import_type="{ value }">
+          <AppBadge :variant="importTypeVariant(value)">{{ value?.replace(/_/g, ' ') ?? '—' }}</AppBadge>
+        </template>
         <template #cell-status="{ value }">
           <AppBadge :variant="statusVariant(value)">{{ value }}</AppBadge>
         </template>
         <template #cell-rows_failed="{ value }">
           <span :class="value > 0 ? 'text-red-600 font-semibold' : 'text-gray-500'">{{ value }}</span>
-        </template>
-        <template #cell-import_type="{ value }">
-          <span class="text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
-            {{ value?.replace(/_/g, ' ') ?? '—' }}
-          </span>
         </template>
       </AppTable>
 
@@ -78,6 +79,14 @@ const statusVariant = (status: string) => {
     pending: 'upcoming',
   }
   return map[status] ?? 'default'
+}
+
+const importTypeVariant = (type: string): 'upcoming' | 'default' => {
+  const map: Record<string, any> = {
+    team_stats: 'upcoming',
+    player_stats: 'default',
+  }
+  return map[type] ?? 'default'
 }
 
 const fetchImports = async () => {

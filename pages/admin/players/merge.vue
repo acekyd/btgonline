@@ -8,76 +8,64 @@
       <h1 class="text-xl font-black text-[#001D3D] dark:text-white">Merge Players</h1>
     </div>
 
-    <!-- Stepper -->
-    <div class="flex items-center gap-0 mb-8">
-      <div
-        v-for="(step, idx) in steps"
-        :key="step"
-        class="flex items-center"
-      >
+    <!-- Enhanced Stepper -->
+    <div class="flex items-center mb-8">
+      <template v-for="(stepLabel, i) in ['Select Players', 'Preview', 'Complete']" :key="i">
         <div class="flex items-center gap-2">
-          <div
-            :class="[
-              'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors',
-              currentStep > idx + 1
-                ? 'bg-green-500 text-white'
-                : currentStep === idx + 1
-                  ? 'bg-[#001D3D] text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500',
-            ]"
-          >
-            <Icon v-if="currentStep > idx + 1" name="lucide:check" class="w-4 h-4" />
-            <span v-else>{{ idx + 1 }}</span>
+          <div :class="[
+            'w-8 h-8 rounded-full flex items-center justify-center text-sm font-black transition-colors',
+            currentStep > i + 1 ? 'bg-green-500 text-white' :
+            currentStep === i + 1 ? 'bg-[#E30613] text-white' :
+            'bg-gray-200 dark:bg-gray-700 text-gray-400'
+          ]">
+            <Icon v-if="currentStep > i + 1" name="lucide:check" class="w-4 h-4" />
+            <span v-else>{{ i + 1 }}</span>
           </div>
-          <span
-            :class="[
-              'text-sm font-semibold hidden sm:block',
-              currentStep === idx + 1
-                ? 'text-[#001D3D] dark:text-white'
-                : 'text-gray-400 dark:text-gray-500',
-            ]"
-          >{{ step }}</span>
+          <span :class="[
+            'text-sm font-semibold hidden sm:block',
+            currentStep === i + 1 ? 'text-gray-900 dark:text-white' : 'text-gray-400'
+          ]">{{ stepLabel }}</span>
         </div>
-        <div v-if="idx < steps.length - 1" class="h-px w-8 sm:w-12 bg-gray-200 dark:bg-gray-700 mx-2" />
-      </div>
+        <div v-if="i < 2" :class="['flex-1 h-1 mx-3 rounded-full transition-colors', currentStep > i + 1 ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700']" />
+      </template>
     </div>
 
     <!-- STEP 1: Select Players -->
     <template v-if="currentStep === 1">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- Source -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
-          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-            Source Player
-            <span class="text-red-500 normal-case font-normal ml-1">(will be deleted)</span>
-          </h2>
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-5">
+          <div class="mb-3">
+            <h2 class="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Source Player</h2>
+            <p class="text-xs text-red-500 font-medium mt-0.5">(will be permanently deleted)</p>
+          </div>
           <input
             v-model="sourceSearch"
             type="text"
             placeholder="Search by name..."
-            class="input-field mb-3"
+            class="w-full px-4 py-2.5 text-sm rounded-lg border border-red-200 dark:border-red-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-red-300 focus:border-red-400 focus:outline-none transition-colors mb-3"
             @input="debouncedSearch('source')"
           />
           <!-- Dropdown results -->
-          <div v-if="sourceResults.length > 0 && !sourcePlayer" class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden mb-3">
+          <div v-if="sourceResults.length > 0 && !sourcePlayer" class="border border-red-200 dark:border-red-700 rounded-lg overflow-hidden mb-3 bg-white dark:bg-gray-900">
             <button
               v-for="p in sourceResults"
               :key="p.id"
               type="button"
-              class="w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
+              class="w-full text-left px-3 py-2.5 text-sm hover:bg-red-50 dark:hover:bg-red-900/20 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
               @click="selectPlayer('source', p)"
             >
               <span class="font-semibold text-gray-800 dark:text-gray-200">{{ p.canonical_name }}</span>
               <span v-if="p.position && p.position !== 'unset'" class="ml-2 text-xs text-gray-400">{{ p.position }}</span>
             </button>
           </div>
-          <!-- Selected player -->
-          <div v-if="sourcePlayer" class="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <!-- Selected player chip -->
+          <div v-if="sourcePlayer" class="flex items-center justify-between p-3 bg-white dark:bg-gray-900 border border-red-300 dark:border-red-700 rounded-lg">
             <div>
               <p class="font-bold text-gray-900 dark:text-white text-sm">{{ sourcePlayer.canonical_name }}</p>
               <p v-if="sourcePlayer.position && sourcePlayer.position !== 'unset'" class="text-xs text-gray-500 mt-0.5">{{ sourcePlayer.position }}</p>
             </div>
-            <button type="button" @click="clearPlayer('source')" class="text-gray-400 hover:text-red-500 transition-colors">
+            <button type="button" @click="clearPlayer('source')" class="text-gray-400 hover:text-red-500 transition-colors ml-3">
               <Icon name="lucide:x" class="w-4 h-4" />
             </button>
           </div>
@@ -85,36 +73,36 @@
         </div>
 
         <!-- Target -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-5">
-          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-            Target Player
-            <span class="text-green-600 normal-case font-normal ml-1">(will be kept)</span>
-          </h2>
+        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-5">
+          <div class="mb-3">
+            <h2 class="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Target Player</h2>
+            <p class="text-xs text-green-600 font-medium mt-0.5">(record to keep)</p>
+          </div>
           <input
             v-model="targetSearch"
             type="text"
             placeholder="Search by name..."
-            class="input-field mb-3"
+            class="w-full px-4 py-2.5 text-sm rounded-lg border border-green-200 dark:border-green-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-green-300 focus:border-green-400 focus:outline-none transition-colors mb-3"
             @input="debouncedSearch('target')"
           />
-          <div v-if="targetResults.length > 0 && !targetPlayer" class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden mb-3">
+          <div v-if="targetResults.length > 0 && !targetPlayer" class="border border-green-200 dark:border-green-700 rounded-lg overflow-hidden mb-3 bg-white dark:bg-gray-900">
             <button
               v-for="p in targetResults"
               :key="p.id"
               type="button"
-              class="w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
+              class="w-full text-left px-3 py-2.5 text-sm hover:bg-green-50 dark:hover:bg-green-900/20 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
               @click="selectPlayer('target', p)"
             >
               <span class="font-semibold text-gray-800 dark:text-gray-200">{{ p.canonical_name }}</span>
               <span v-if="p.position && p.position !== 'unset'" class="ml-2 text-xs text-gray-400">{{ p.position }}</span>
             </button>
           </div>
-          <div v-if="targetPlayer" class="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+          <div v-if="targetPlayer" class="flex items-center justify-between p-3 bg-white dark:bg-gray-900 border border-green-300 dark:border-green-700 rounded-lg">
             <div>
               <p class="font-bold text-gray-900 dark:text-white text-sm">{{ targetPlayer.canonical_name }}</p>
               <p v-if="targetPlayer.position && targetPlayer.position !== 'unset'" class="text-xs text-gray-500 mt-0.5">{{ targetPlayer.position }}</p>
             </div>
-            <button type="button" @click="clearPlayer('target')" class="text-gray-400 hover:text-red-500 transition-colors">
+            <button type="button" @click="clearPlayer('target')" class="text-gray-400 hover:text-red-500 transition-colors ml-3">
               <Icon name="lucide:x" class="w-4 h-4" />
             </button>
           </div>
@@ -122,21 +110,36 @@
         </div>
       </div>
 
-      <div v-if="step1Error" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{{ step1Error }}</div>
+      <div v-if="step1Error" class="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-4">
+        <Icon name="lucide:alert-circle" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ step1Error }}</span>
+      </div>
 
       <AppButton
         variant="primary"
+        class="w-full"
         :disabled="!sourcePlayer || !targetPlayer"
         :loading="previewLoading"
         @click="loadPreview"
       >
+        <Icon name="lucide:eye" class="w-4 h-4" />
         Load Preview
       </AppButton>
     </template>
 
     <!-- STEP 2: Preview -->
     <template v-if="currentStep === 2 && previewData">
+      <!-- Amber warning banner -->
+      <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 mb-6">
+        <Icon name="lucide:alert-triangle" class="w-5 h-5 flex-shrink-0 mt-0.5" />
+        <div>
+          <p class="text-sm font-bold">Warning: This action cannot be undone.</p>
+          <p class="text-sm mt-0.5">You are about to permanently delete <strong>{{ sourcePlayer?.canonical_name }}</strong> and merge all their data into <strong>{{ targetPlayer?.canonical_name }}</strong>.</p>
+        </div>
+      </div>
+
       <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-6 mb-6">
+        <!-- Player comparison header -->
         <div class="flex flex-col sm:flex-row gap-4 mb-6 pb-6 border-b border-gray-100 dark:border-gray-700">
           <div class="flex-1 p-4 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-200 dark:border-red-800">
             <p class="text-xs font-bold text-red-500 uppercase tracking-wider mb-1">Source (deleted)</p>
@@ -158,16 +161,26 @@
             <span class="ml-1 text-xs font-normal text-gray-400">({{ previewData.statsToMove?.length ?? 0 }} rows)</span>
           </h3>
           <div v-if="previewData.statsToMove?.length > 0" class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
-            <div
-              v-for="(stat, i) in previewData.statsToMove"
-              :key="i"
-              class="flex items-center justify-between px-4 py-2.5 text-sm border-b border-gray-100 dark:border-gray-700 last:border-0"
-            >
-              <span class="text-gray-700 dark:text-gray-300 font-medium">{{ stat.season_name ?? stat.season_id }}</span>
-              <span class="text-gray-400 text-xs">
-                G: {{ stat.goals ?? 0 }} · A: {{ stat.assists ?? 0 }}
-              </span>
-            </div>
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50 dark:bg-gray-800/80">
+                <tr>
+                  <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Season</th>
+                  <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Goals</th>
+                  <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Assists</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(stat, i) in previewData.statsToMove"
+                  :key="i"
+                  class="border-t border-gray-100 dark:border-gray-700"
+                >
+                  <td class="px-4 py-2.5 text-gray-700 dark:text-gray-300 font-medium">{{ stat.season_name ?? stat.season_id }}</td>
+                  <td class="px-4 py-2.5 text-gray-500">{{ stat.goals ?? 0 }}</td>
+                  <td class="px-4 py-2.5 text-gray-500">{{ stat.assists ?? 0 }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <p v-else class="text-sm text-gray-400 italic">No stats rows to move.</p>
         </div>
@@ -198,20 +211,23 @@
             <span
               v-for="a in previewData.aliasesSkipped"
               :key="a"
-              class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs font-semibold rounded-full line-through"
-            >{{ a }}</span>
+              class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 text-xs font-semibold rounded-full line-through"
+            >{{ a }} <span class="no-underline not-italic text-gray-400 font-normal">(duplicate)</span></span>
           </div>
         </div>
       </div>
 
-      <div v-if="mergeError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{{ mergeError }}</div>
+      <div v-if="mergeError" class="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-4">
+        <Icon name="lucide:alert-circle" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ mergeError }}</span>
+      </div>
 
       <div class="flex items-center gap-3">
-        <AppButton variant="primary" :loading="mergeLoading" @click="confirmMerge">
+        <AppButton variant="danger" :loading="mergeLoading" @click="confirmMerge">
           <Icon name="lucide:git-merge" class="w-4 h-4" />
-          Confirm Merge
+          Confirm Merge — Delete {{ sourcePlayer?.canonical_name }}
         </AppButton>
-        <AppButton variant="outline" @click="resetMerge">Cancel</AppButton>
+        <AppButton variant="ghost" @click="resetMerge">Cancel</AppButton>
       </div>
     </template>
 
@@ -230,15 +246,15 @@
         <div class="flex items-center justify-center gap-6 mb-8 text-sm">
           <div class="text-center">
             <p class="text-2xl font-black text-[#001D3D] dark:text-white">{{ mergeResult.statsMoved ?? 0 }}</p>
-            <p class="text-gray-400">Stats moved</p>
+            <p class="text-gray-400 text-xs mt-0.5">Stat rows moved</p>
           </div>
           <div class="text-center">
             <p class="text-2xl font-black text-[#001D3D] dark:text-white">{{ mergeResult.aliasesMoved ?? 0 }}</p>
-            <p class="text-gray-400">Aliases moved</p>
+            <p class="text-gray-400 text-xs mt-0.5">Aliases moved</p>
           </div>
           <div class="text-center">
             <p class="text-2xl font-black text-[#001D3D] dark:text-white">{{ mergeResult.aliasesSkipped ?? 0 }}</p>
-            <p class="text-gray-400">Aliases skipped</p>
+            <p class="text-gray-400 text-xs mt-0.5">Aliases skipped</p>
           </div>
         </div>
         <div class="flex items-center justify-center gap-3">

@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-auto w-full rounded-xl border border-gray-200 dark:border-gray-700">
+  <div class="overflow-x-auto w-full rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
     <table class="w-full text-sm text-left">
       <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <tr>
@@ -7,8 +7,8 @@
             v-for="col in columns"
             :key="col.key"
             :class="[
-              'px-4 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide whitespace-nowrap',
-              col.sortable ? 'cursor-pointer select-none hover:text-gray-700 dark:hover:text-gray-200' : ''
+              'px-4 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide whitespace-nowrap transition-colors',
+              col.sortable ? 'cursor-pointer select-none hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded' : ''
             ]"
             @click="col.sortable ? handleSort(col.key) : undefined"
           >

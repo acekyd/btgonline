@@ -11,26 +11,29 @@
       </NuxtLink>
     </div>
 
-    <!-- Filters -->
-    <div class="flex flex-col sm:flex-row gap-3 mb-4">
-      <input
-        v-model="searchInput"
-        type="text"
-        placeholder="Search seasons..."
-        class="w-full sm:w-64 px-4 py-2.5 text-sm border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613]"
-      />
-      <select
-        v-model="selectedTournamentId"
-        class="w-full sm:w-56 px-3.5 py-2.5 text-sm border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613]"
-        @change="page = 1; fetchSeasons()"
-      >
-        <option value="">All Tournaments</option>
-        <option v-for="t in tournaments" :key="t.id" :value="t.id">{{ t.name }}</option>
-      </select>
-    </div>
-
-    <!-- Table -->
+    <!-- Search + Table Card -->
     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+      <!-- Filters -->
+      <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input
+            v-model="searchInput"
+            type="text"
+            placeholder="Search seasons..."
+            class="w-full sm:w-64 px-4 py-2.5 text-sm border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613]"
+          />
+          <select
+            v-model="selectedTournamentId"
+            class="w-full sm:w-56 px-3.5 py-2.5 text-sm border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613]"
+            @change="page = 1; fetchSeasons()"
+          >
+            <option value="">All Tournaments</option>
+            <option v-for="t in tournaments" :key="t.id" :value="t.id">{{ t.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Table -->
       <AppTable
         :columns="columns"
         :rows="rows"
@@ -45,9 +48,15 @@
         <template #cell-actions="{ row }">
           <div class="flex items-center gap-2">
             <NuxtLink :to="`/admin/seasons/${row.id}`">
-              <AppButton variant="outline" size="sm">Edit</AppButton>
+              <AppButton variant="outline" size="sm">
+                <Icon name="lucide:pencil" class="w-3.5 h-3.5" />
+                Edit
+              </AppButton>
             </NuxtLink>
-            <AppButton variant="primary" size="sm" @click="confirmDelete(row)">Delete</AppButton>
+            <AppButton variant="danger" size="sm" @click="confirmDelete(row)">
+              <Icon name="lucide:trash-2" class="w-3.5 h-3.5" />
+              Delete
+            </AppButton>
           </div>
         </template>
       </AppTable>
@@ -61,13 +70,16 @@
     <AppModal v-model="showDeleteModal" title="Delete Season">
       <p class="text-gray-600 dark:text-gray-300 text-sm">
         Are you sure you want to delete
-        <span class="font-bold text-gray-900 dark:text-white">{{ deletingItem?.name }}</span>?
+        <span class="font-semibold text-gray-900 dark:text-white">{{ deletingItem?.name }}</span>?
         This cannot be undone.
       </p>
       <p v-if="deleteError" class="mt-3 text-sm text-red-600">{{ deleteError }}</p>
       <template #footer>
         <AppButton variant="outline" size="sm" @click="showDeleteModal = false">Cancel</AppButton>
-        <AppButton variant="primary" size="sm" :loading="deleteLoading" @click="executeDelete">Delete</AppButton>
+        <AppButton variant="danger" size="sm" :loading="deleteLoading" @click="executeDelete">
+          <Icon name="lucide:trash-2" class="w-3.5 h-3.5" />
+          Delete Season
+        </AppButton>
       </template>
     </AppModal>
   </div>

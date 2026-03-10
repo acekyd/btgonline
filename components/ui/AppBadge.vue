@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 interface Props {
-  variant?: 'active' | 'completed' | 'offseason' | 'upcoming' | 'partial' | 'failed' | 'archived' | 'default'
+  variant?: 'active' | 'completed' | 'offseason' | 'upcoming' | 'partial' | 'failed' | 'archived' | 'default' | 'inactive' | 'warning'
   size?: 'sm' | 'md'
 }
 
@@ -24,6 +24,8 @@ const variantClasses: Record<string, string> = {
   failed: 'bg-[#E30613] text-white',
   archived: 'bg-gray-700 text-gray-300',
   default: 'bg-[#001D3D] text-white',
+  inactive: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300',
+  warning: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300',
 }
 
 const sizeClasses: Record<string, string> = {

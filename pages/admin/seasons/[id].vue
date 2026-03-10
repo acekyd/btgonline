@@ -1,112 +1,241 @@
 <template>
   <div class="max-w-4xl">
-    <div class="flex items-center gap-3 mb-6">
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-2">
       <NuxtLink to="/admin/seasons" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
         <Icon name="lucide:arrow-left" class="w-5 h-5" />
       </NuxtLink>
       <div>
         <h1 class="text-xl font-black text-[#001D3D] dark:text-white">Edit Season</h1>
-        <p v-if="form.updated_at" class="text-xs text-gray-400 mt-0.5">Last updated: {{ formatDate(form.updated_at) }}</p>
+        <p v-if="form.updated_at" class="text-xs text-gray-400 mt-0.5">Updated {{ formatDate(form.updated_at) }}</p>
       </div>
     </div>
 
+    <p class="text-xs text-gray-400 dark:text-gray-500 mb-6">
+      Fields marked <span class="text-[#E30613] font-bold">*</span> are required.
+    </p>
+
+    <!-- 404 -->
     <div v-if="notFound" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-12 text-center">
       <Icon name="lucide:calendar-x" class="w-12 h-12 text-gray-300 mx-auto mb-3" />
       <p class="text-gray-500 dark:text-gray-400 font-semibold">Season not found</p>
       <NuxtLink to="/admin/seasons" class="mt-3 inline-block text-sm text-[#E30613] hover:underline">← Back to Seasons</NuxtLink>
     </div>
 
+    <!-- Loading -->
     <div v-else-if="fetchLoading" class="flex items-center justify-center py-20">
       <div class="w-8 h-8 border-4 border-[#E30613] border-t-transparent rounded-full animate-spin" />
     </div>
 
     <template v-else>
-      <div v-if="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">{{ successMessage }}</div>
-      <div v-if="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{{ errorMessage }}</div>
+      <!-- Success / Error banners -->
+      <div v-if="successMessage" class="flex items-center gap-3 p-4 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 mb-6">
+        <Icon name="lucide:check-circle-2" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ successMessage }}</span>
+      </div>
+      <div v-if="errorMessage" class="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 mb-6">
+        <Icon name="lucide:alert-circle" class="w-5 h-5 flex-shrink-0" />
+        <span class="text-sm font-medium">{{ errorMessage }}</span>
+      </div>
 
       <form @submit.prevent="handleSubmit">
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-6 mb-6">
-          <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Season Details</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+        <!-- Tournament & Identity -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tournament & Identity</h2>
+          </div>
+          <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Tournament -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 Tournament <span class="text-[#E30613]">*</span>
               </label>
-              <select v-model="form.tournament_id" class="input-field" :class="{ 'border-red-400': errors.tournament_id }">
-                <option value="">Select tournament...</option>
+              <select
+                v-model="form.tournament_id"
+                :class="[
+                  'w-full px-4 py-2.5 text-sm rounded-lg border transition-colors bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none',
+                  errors.tournament_id ? 'border-red-400' : 'border-gray-200 dark:border-gray-600'
+                ]"
+              >
+                <option value="">— Select Tournament —</option>
                 <option v-for="t in tournaments" :key="t.id" :value="t.id">{{ t.name }}</option>
               </select>
-              <p v-if="errors.tournament_id" class="mt-1 text-xs text-red-500">{{ errors.tournament_id }}</p>
+              <p v-if="errors.tournament_id" class="text-xs text-red-500 flex items-center gap-1">
+                <Icon name="lucide:alert-circle" class="w-3.5 h-3.5 flex-shrink-0" />
+                {{ errors.tournament_id }}
+              </p>
             </div>
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Status</label>
-              <select v-model="form.status" class="input-field">
-                <option value="upcoming">Upcoming</option>
-                <option value="active">Active</option>
-                <option value="completed">Completed</option>
-                <option value="archived">Archived</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+            <!-- Name -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 Name <span class="text-[#E30613]">*</span>
               </label>
-              <input v-model="form.name" type="text" class="input-field" :class="{ 'border-red-400': errors.name }" />
-              <p v-if="errors.name" class="mt-1 text-xs text-red-500">{{ errors.name }}</p>
+              <input
+                v-model="form.name"
+                type="text"
+                :class="[
+                  'w-full px-4 py-2.5 text-sm rounded-lg border transition-colors bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400',
+                  errors.name
+                    ? 'border-red-400 bg-red-50 dark:bg-red-900/10 focus:ring-red-400 focus:border-red-400 focus:outline-none'
+                    : 'border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none'
+                ]"
+              />
+              <p v-if="errors.name" class="text-xs text-red-500 flex items-center gap-1">
+                <Icon name="lucide:alert-circle" class="w-3.5 h-3.5 flex-shrink-0" />
+                {{ errors.name }}
+              </p>
             </div>
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Short Label</label>
-              <input v-model="form.short_label" type="text" class="input-field" />
+            <!-- Short Label -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Short Label</label>
+              <input
+                v-model="form.short_label"
+                type="text"
+                placeholder="e.g. S4"
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+              <p class="text-xs text-gray-400">Short label shown in tables e.g. S4</p>
             </div>
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Season Order</label>
-              <input v-model.number="form.season_order" type="number" class="input-field" />
+            <!-- Season Order -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Season Order</label>
+              <input
+                v-model.number="form.season_order"
+                type="number"
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+              <p class="text-xs text-gray-400">Controls display order within a tournament.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dates & Status -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Dates & Status</h2>
+          </div>
+          <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Start Date -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Start Date</label>
+              <input
+                v-model="form.start_date"
+                type="date"
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
             </div>
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Start Date</label>
-              <input v-model="form.start_date" type="date" class="input-field" />
+            <!-- End Date -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">End Date</label>
+              <input
+                v-model="form.end_date"
+                type="date"
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              />
+              <p class="text-xs text-gray-400">End date must be after start date.</p>
             </div>
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">End Date</label>
-              <input v-model="form.end_date" type="date" class="input-field" />
+            <!-- Status -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Status</label>
+              <select
+                v-model="form.status"
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              >
+                <option value="upcoming">Upcoming — Season has not started yet</option>
+                <option value="active">Active — Season is currently in progress</option>
+                <option value="completed">Completed — Season has ended with results</option>
+                <option value="archived">Archived — Hidden from public view</option>
+              </select>
             </div>
+          </div>
+        </div>
 
+        <!-- Champions -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Champions</h2>
+          </div>
+          <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
             <div class="md:col-span-2">
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Overview</label>
-              <textarea v-model="form.overview" rows="3" class="input-field resize-none" />
+              <p class="text-xs text-gray-400 mb-4 flex items-center gap-1.5">
+                <Icon name="lucide:info" class="w-3.5 h-3.5 flex-shrink-0" />
+                You can set these after importing season statistics.
+              </p>
             </div>
-
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Champion Team</label>
-              <select v-model="form.champion_team_id" class="input-field">
-                <option :value="null">— None —</option>
+            <!-- Champion Team -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Champion Team</label>
+              <select
+                v-model="form.champion_team_id"
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              >
+                <option :value="null">— Not yet set —</option>
                 <option v-for="t in teams" :key="t.id" :value="t.id">{{ t.canonical_name }}</option>
               </select>
             </div>
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Runner-Up Team</label>
-              <select v-model="form.runner_up_team_id" class="input-field">
-                <option :value="null">— None —</option>
+            <!-- Runner-Up Team -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Runner-up Team</label>
+              <select
+                v-model="form.runner_up_team_id"
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors"
+              >
+                <option :value="null">— Not yet set —</option>
                 <option v-for="t in teams" :key="t.id" :value="t.id">{{ t.canonical_name }}</option>
               </select>
             </div>
           </div>
         </div>
 
-        <div class="flex items-center gap-3">
-          <AppButton type="submit" variant="primary" :loading="submitting">Save Changes</AppButton>
+        <!-- Overview -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mb-6">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Overview</h2>
+          </div>
+          <div class="p-6">
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Overview</label>
+              <textarea
+                v-model="form.overview"
+                rows="5"
+                placeholder="Season overview or description..."
+                class="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] focus:outline-none transition-colors resize-none"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Bar -->
+        <div class="flex items-center justify-between pt-4 mt-2 border-t border-gray-100 dark:border-gray-700">
           <NuxtLink to="/admin/seasons">
-            <AppButton variant="outline" type="button">Cancel</AppButton>
+            <AppButton variant="ghost" size="md" type="button">Cancel</AppButton>
           </NuxtLink>
+          <AppButton type="submit" variant="primary" size="md" :loading="submitting">
+            <Icon name="lucide:save" class="w-4 h-4" />
+            Save Changes
+          </AppButton>
         </div>
       </form>
+
+      <!-- Danger Zone -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-red-200 dark:border-red-800 shadow-sm mb-6 mt-8">
+        <div class="px-6 py-4 border-b border-red-100 dark:border-red-800">
+          <h2 class="text-sm font-bold text-red-500 uppercase tracking-wider">Danger Zone</h2>
+        </div>
+        <div class="p-6 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">Delete this season</p>
+            <p class="text-xs text-gray-400 mt-0.5">This action cannot be undone.</p>
+          </div>
+          <AppButton variant="danger" size="sm" type="button" @click="handleDelete">Delete Season</AppButton>
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -168,6 +297,16 @@ const handleSubmit = async () => {
   }
 }
 
+const handleDelete = async () => {
+  if (!confirm('Are you sure you want to delete this season? This action cannot be undone.')) return
+  try {
+    await $fetch(`/api/admin/seasons/${id}`, { method: 'DELETE' })
+    await navigateTo('/admin/seasons')
+  } catch (err: any) {
+    errorMessage.value = err?.data?.message ?? 'Failed to delete season.'
+  }
+}
+
 onMounted(async () => {
   await Promise.allSettled([
     (async () => {
@@ -206,10 +345,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<style scoped>
-@reference "tailwindcss";
-.input-field {
-  @apply w-full px-3.5 py-2.5 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E30613]/30 focus:border-[#E30613] transition-colors;
-}
-</style>
