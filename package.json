@@ -8,8 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "db:migrate": "tsx server/db/migrate.ts",
-    "db:seed": "tsx scripts/seed.ts"
+    "db:migrate": "node --env-file=.env --import tsx/esm server/db/migrate.ts",
+    "db:seed": "node --import tsx/esm scripts/seed.ts"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.4.1",
