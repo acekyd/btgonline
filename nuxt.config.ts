@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    '@nuxt/content',
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/icon',
@@ -12,28 +11,19 @@ export default defineNuxtConfig({
     '@nuxt/ui',
   ],
   css: ['~/assets/css/main.css'],
-  content: {
-    build: {
-      markdown: {
-        toc: {
-          depth: 2,
-          searchDepth: 2,
-        },
-        highlight: {
-          theme: 'github-dark',
-        }
-      }
-    }
-  },
-  components: [
-    {
-      path: '~/news/[...slug].vue',
-      prefix: 'content',
-      pathPrefix: false,
-    },
-  ],
   colorMode: {
     preference: 'light',
     fallback: 'dark',
+  },
+  nitro: {
+    experimental: { wasm: true },
+    externals: { external: ['better-sqlite3'] }
+  },
+  runtimeConfig: {
+    sessionSecret: process.env.SESSION_SECRET || 'dev-secret-change-in-production',
+    adminEmail: process.env.ADMIN_EMAIL || '',
+    adminPasswordHash: process.env.ADMIN_PASSWORD_HASH || '',
+    databaseUrl: process.env.DATABASE_URL || 'file:./data/dev.db',
+    public: {}
   }
 })

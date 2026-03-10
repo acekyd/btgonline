@@ -1,17 +1,9 @@
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-screen flex flex-col">
     <HeaderSection />
-    <main>
+    <main class="flex-1">
       <slot />
     </main>
     <FooterSection />
   </div>
 </template>
-
-<script setup lang="ts">
-import FooterSection from '~/components/FooterSection.vue';
-import HeaderSection from '~/components/HeaderSection.vue';
-
-// The layout will automatically use the HeaderSection component
-// since it's in the components directory
-</script> 
